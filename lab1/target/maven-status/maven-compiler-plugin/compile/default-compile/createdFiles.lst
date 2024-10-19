@@ -1,2 +1,11 @@
+info\uaic\miss\lab1\Wrapper\SimpleResponseWrapper.class
+info\uaic\miss\lab1\Helper\RequestLog.class
+info\uaic\miss\lab1\Models\FileLinesBean.class
+info\uaic\miss\lab1\filters\ResponseWrapperFilter.class
+info\uaic\miss\lab1\listener\AppConfigListener.class
+info\uaic\miss\lab1\GraphServlet\AdjacencyMatrixServlet.class
+info\uaic\miss\lab1\GraphServlet\FileUploadServlet.class
+info\uaic\miss\lab1\filters\LoggingFilter.class
 info\uaic\miss\lab1\JakartaRestConfiguration.class
+info\uaic\miss\lab1\StringListServlet\StringListServlet.class
 info\uaic\miss\lab1\resources\JakartaEE9Resource.class

@@ -8,4 +8,15 @@
             30
         </session-timeout>
     </session-config>
+    
+    <context-param>
+        <param-name>prelude</param-name>
+        <param-value>Welcome! This is the File Upload Application!</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>coda</param-name>
+        <param-value>Thank you for using our service.</param-value>
+    </context-param>
+    
 </web-app>
