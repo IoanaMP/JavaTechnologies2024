@@ -25,7 +25,7 @@ public class AppConfigListener implements ServletContextListener {
         sce.getServletContext().setAttribute("prelude", prelude);
         sce.getServletContext().setAttribute("coda", coda);
 
-        System.out.println("AppConfigListener: Application started. Prelude and Coda initialized.");
+        System.out.println("Application started. Prelude and Coda initialized.");
     }
 
     @Override

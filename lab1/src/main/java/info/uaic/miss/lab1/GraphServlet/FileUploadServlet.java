@@ -4,6 +4,9 @@
  */
 package info.uaic.miss.lab1.GraphServlet;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import info.uaic.miss.lab1.Models.FileLinesBean;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -16,6 +19,8 @@ import jakarta.servlet.http.Part;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -26,6 +31,7 @@ import java.util.List;
 @MultipartConfig
 public class FileUploadServlet extends HttpServlet {
 
+    private static final String SECRET_KEY = "6LeTEWoqAAAAAPRk0D5emYEp0XTuzbZGUhzr_kdj";
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -38,6 +44,15 @@ public class FileUploadServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+
+        boolean isCaptchaVerified = verifyRecaptcha(gRecaptchaResponse);
+
+        if (!isCaptchaVerified) {
+            request.setAttribute("captchaError", "Captcha verification failed. Please try again.");
+            request.getRequestDispatcher("/input.jsp").forward(request, response);
+            return;
+        }
         String fileName = request.getParameter("fileName");
         String description = request.getParameter("description");
 
@@ -72,5 +87,34 @@ public class FileUploadServlet extends HttpServlet {
         request.getSession().setAttribute("fileLinesBean", fileLinesBean);
 
         response.sendRedirect(request.getContextPath() + "/result.jsp");
+    }
+
+    private boolean verifyRecaptcha(String gRecaptchaResponse) {  
+        System.out.println("verify");
+        String secretKey = SECRET_KEY;
+        String url = "https://www.google.com/recaptcha/api/siteverify";
+        try {
+            String params = "secret=" + secretKey + "&response=" + gRecaptchaResponse;
+
+            URL obj = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.getOutputStream().write(params.getBytes());
+
+            StringBuilder response;
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                String inputLine;
+                response = new StringBuilder();
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+            }
+
+            JsonObject json = JsonParser.parseString(response.toString()).getAsJsonObject();
+            return json.get("success").getAsBoolean();
+        } catch (JsonSyntaxException | IOException e) {
+            return false;
+        }
     }
 }

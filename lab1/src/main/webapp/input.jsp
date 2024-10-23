@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>File Upload</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <h2>Upload a Text File</h2>
@@ -22,7 +23,14 @@
         <label for="file">Select a file:</label>
         <input type="file" name="file" accept=".txt" required><br><br>
 
-        <input type="submit" value="Upload File">
+        <!-- reCAPTCHA widget -->
+        <div class="g-recaptcha" data-sitekey="6LeTEWoqAAAAAHy2-FQM0JLJAyINCnJu0-1x8mfj"></div><br><br>
+        
+        <c:if test="${not empty captchaError}">
+            <p style="color: red;">${captchaError}</p>
+        </c:if>
+        
+        <input type="submit" value="Upload File and Submit">
     </form>
 </body>
 </html>
