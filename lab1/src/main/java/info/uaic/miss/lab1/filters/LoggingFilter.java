@@ -11,17 +11,19 @@ import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import java.io.IOException;
-import java.util.Date;
-
+import java.io.InputStream;
 /**
  *
  * @author ioana
  */
+
 @WebFilter(filterName = "LoggingFilter", urlPatterns = {"/input.jsp/*"})
+@MultipartConfig
 public class LoggingFilter implements Filter {
 
     @Override
@@ -32,14 +34,34 @@ public class LoggingFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
-        HttpServletResponse response = (HttpServletResponse) res;
 
-        String exampleParam = request.getParameter("exampleParam");
+        StringBuilder params = new StringBuilder();
 
-        // Log the request using the RequestLog class from lab 1
-        RequestLog.logRequest(request, request.getServletContext(), exampleParam);
+        if (request.getContentType() != null && request.getContentType().startsWith("multipart/")) {
+            Part namePart = request.getPart("fileName");
+            Part descriptionPart = request.getPart("description");
 
+            String name = namePart != null ? getValueFromPart(namePart) : "N/A";
+            String description = descriptionPart != null ? getValueFromPart(descriptionPart) : "N/A";
+
+            params.append("fileName = ").append(name).append(" ");
+            params.append("description = ").append(description);
+        }
+
+        RequestLog.logRequest(request, request.getServletContext(), params.toString());
         chain.doFilter(req, res);
+    }
+    
+        private String getValueFromPart(Part part) throws IOException {
+        StringBuilder value = new StringBuilder();
+        byte[] buffer = new byte[1024];
+        try (InputStream inputStream = part.getInputStream()) {
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                value.append(new String(buffer, 0, bytesRead));
+            }
+        }
+        return value.toString().trim();
     }
 
     @Override

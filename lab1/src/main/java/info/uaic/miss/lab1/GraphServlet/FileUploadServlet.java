@@ -90,7 +90,7 @@ public class FileUploadServlet extends HttpServlet {
     }
 
     private boolean verifyRecaptcha(String gRecaptchaResponse) {  
-        System.out.println("verify");
+
         String secretKey = SECRET_KEY;
         String url = "https://www.google.com/recaptcha/api/siteverify";
         try {
