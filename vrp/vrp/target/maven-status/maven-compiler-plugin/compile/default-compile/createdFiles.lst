@@ -1,0 +1,11 @@
+info\uaic\vrp\Entities\Client.class
+info\uaic\vrp\JAXRSConfiguration.class
+info\uaic\vrp\Bean\LocaleBean.class
+info\uaic\vrp\Entities\Product.class
+info\uaic\vrp\Services\ClientService.class
+info\uaic\vrp\Bean\ClientBean.class
+info\uaic\vrp\Services\ProductService.class
+info\uaic\vrp\Bean\ProductBean.class
+info\uaic\vrp\Entities\ClientOrder.class
+info\uaic\vrp\resources\JavaEE8Resource.class
+info\uaic\vrp\Utils\DatabaseConnection.class
