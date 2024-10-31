@@ -23,3 +23,12 @@ Homework (2p)
 For the LoggingFilter I use the logRequest function created in the first Laboratory to log the detalis about all the requests that contains /input.jsp/*.
 The AppConfigListener saves in sessions the contect init parameters coda and prelude(declared in web.xml) and the ResponseWrapperFilter add this two to all responses.
 For the Captcha I used Google [reCaptcha](https://www.google.com/recaptcha/about/). They handle the verification, so the one from backend is somehow a formal verification. I ensure that the g-recaptcha-response token is valid by sending it to the Google API. Google responds whether the user passed or failed the CAPTCHA. If it has error, I display an error message.
+
+Laboratory 3
+As recommended, I use a PostgreSql database, JSF 2.3 with Maven, I switched the server to Payara 5, because 6 didn't let me add JSF, and components from PrimeFaces.
+I made two pages products.xhtml and clienta.xhtml to display the data in a PrimeFaces dataTable format. 
+The first page index.xhtml har a dropdown to choose the language(english or romanian) and two buttons to navigate to one of the two pages mentioned above. The language change will be applied to the headers and buttons. The translations can be found in /resorces/messages_en or_ro.properties.
+In webapp/WEB-INF/facs-config.xml I put resource bundle and the navigation rules.
+Add and Edit Client TBA...
+
+
