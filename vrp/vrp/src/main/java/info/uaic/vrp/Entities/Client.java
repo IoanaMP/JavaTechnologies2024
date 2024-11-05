@@ -15,6 +15,7 @@ public class Client {
     private Integer id;
     private String name;
     private String address;
+    private String email;
     private String timeStart;
     private String timeEnd;
     private String availableDay;
@@ -37,13 +38,21 @@ public class Client {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getAddress() {
+    
+        public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getTimeStart() {

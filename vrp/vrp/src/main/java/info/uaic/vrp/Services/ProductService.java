@@ -49,12 +49,12 @@ public class ProductService {
                 product.setId(rs.getInt("id"));
                 product.setName(rs.getString("name"));
                 product.setDescription(rs.getString("description"));
+                product.setPrice(rs.getDouble("price"));
                 product.setWeight(rs.getDouble("weight"));
                 product.setQuantity(rs.getInt("quantity"));
                 products.add(product);
             }
         }
-        System.out.println("No products found.");
         return products;
     }
     
@@ -67,6 +67,7 @@ public class ProductService {
                     Product product = new Product();
                     product.setId(rs.getInt("id"));
                     product.setName(rs.getString("name"));
+                    product.setPrice(rs.getDouble("price"));
                     return product;
                 }
             }

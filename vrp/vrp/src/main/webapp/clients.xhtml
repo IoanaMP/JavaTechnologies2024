@@ -3,140 +3,134 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Clients Page</title>
     </h:head>
-    <h:body> 
-        <h:form>  
-            <p:commandButton value="#{msg['client.add']}" onclick="PF('addDialog').show();" type="button" />
-            <p:dataTable id="clientTable" var="client" value="#{clientBean.clients}">
-                <p:column headerText="#{msg['client.name']}">
-                    <h:outputText value="#{client.name}" />
-                </p:column>
-                <p:column headerText="#{msg['client.address']}">
-                    <h:outputText value="#{client.address}" />
-                </p:column>
-                <p:column headerText="#{msg['client.timeStart']}">
-                    <h:outputText value="#{client.timeStart}" />
-                </p:column>
-                <p:column headerText="#{msg['client.timeEnd']}">
-                    <h:outputText value="#{client.timeEnd}" />
-                </p:column>
-                <p:column headerText="#{msg['client.availableDay']}">
-                    <h:outputText value="#{client.availableDay}" />
-                </p:column>
+    <h:body>
+    <h:form id="form">
+        <p:toolbar>
+            <p:toolbarGroup>
+                <p:commandButton value="New" icon="pi pi-plus" actionListener="#{clientBean.openNew}"
+                    update=":dialogs:edit-content" oncomplete="PF('editDialog').show()"
+                    styleClass="ui-button-success" style="margin-right: .5rem">
+                    <p:resetInput target=":dialogs:edit-content" />
+                </p:commandButton>
+            </p:toolbarGroup>
+        </p:toolbar>
 
-            </p:dataTable>
+        <p:dataTable id="ordersTable" widgetVar="dtClient" value="#{clientBean.clients}" var="order"
+                     selection="#{clientBean.selectedOrder}" rowKey="#{order.orderId}">
+
+            <f:facet name="header">
+                <div class="products-table-header">
+                    <span style="font-weight: bold">Clients order</span>
+                </div>
+            </f:facet>
             
-            <!-- Add Client Dialog -->
-<!--            <p:dialog header="#{msg['client.add']}" widgetVar="addDialog" modal="true" closeOnEscape="true">
-                <h:form id="addClientForm">
-                    <h:panelGrid columns="2">
+            <p:column headerText="Client Name">
+                #{order.clientName}
+            </p:column>
+            <p:column headerText="Client Email">
+                #{order.clientEmail}
+            </p:column>
+            <p:column headerText="Client Address">
+                #{order.clientAddress}
+            </p:column>
+            <p:column headerText="Client availability start">
+                <p:calendar value="#{order.availabilityStart}" pattern="yyyy-MM-dd" readonly="true" />
+            </p:column>
+            <p:column headerText="Client availability end">
+                <p:calendar value="#{order.availabilityEnd}" pattern="yyyy-MM-dd" readonly="true" />
+            </p:column>
+            <p:column headerText="Order Date">
+                <p:calendar value="#{order.orderDate}" pattern="yyyy-MM-dd" readonly="true" />
+            </p:column>
+            <p:column headerText="Order Status">
+                #{order.orderStatus}
+            </p:column>
+            <p:column headerText="Products">
+                <ui:repeat value="#{order.orderItems}" var="product">
+                    <li>#{product.name}</li>
+                </ui:repeat>
+            </p:column>
+            <p:column headerText="Total Price">
+                <h:outputText value="#{order.totalPrice}" style="font-weight: 700">
+                    <f:convertNumber currencySymbol="$" type="currency" />
+                </h:outputText>
+            </p:column>
+            <p:column ariaHeaderText="Actions">
+                <p:commandButton icon="pi pi-pencil" update=":dialogs:edit-content"
+                    oncomplete="PF('editDialog').show()"
+                    styleClass="edit-button rounded-button ui-button-success" process="@this">
+                    <f:setPropertyActionListener value="#{order}" target="#{clientBean.selectedOrder}" />
+                    <p:resetInput target=":dialogs:edit-content" />
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
+        </h:form>
+        
+        <!-- Edit/Save Order Dialog -->
+        <h:form id="dialogs">
+        <p:dialog header="Order Details" showEffect="fade" modal="true" widgetVar="editDialog"
+            responsive="true">
+            <p:outputPanel id="edit-content" class="ui-fluid">
+                <p:outputPanel rendered="#{not empty clientBean.selectedOrder}">
 
-                        <h:outputLabel for="newName" value="#{msg['client.name']}" />
-                        <h:inputText id="newName" value="#{clientBean.newClient.name}" required="true">
-                            <f:ajax event="blur" render="newNameMessage" />
-                        </h:inputText>
-                        <h:message id="newNameMessage" for="newName" />
+                    <div class="field">
+                        <p:outputLabel for="name">Name</p:outputLabel>
+                        <p:inputText id="name" value="#{clientBean.selectedOrder.clientName}" required="true" />
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="email">Email</p:outputLabel>
+                        <p:inputTextarea id="email" value="#{clientBean.selectedOrder.clientEmail}"/>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="address">Address</p:outputLabel>
+                        <p:inputTextarea id="address" value="#{clientBean.selectedOrder.clientAddress}"/>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="availabilityStart" value="Availability Start" />
+                        <p:datePicker id="availabilityStart" value="#{clientBean.selectedOrder.availabilityStart}" 
+                                      pattern="yyyy-MM-dd" showIcon="true" />
+                    </div>
 
-                        <h:outputLabel for="newAddress" value="#{msg['client.address']}" />
-                        <h:inputText id="newAddress" value="#{clientBean.newClient.address}" required="true">
-                            <f:ajax event="blur" render="newAddressMessage" />
-                        </h:inputText>
-                        <h:message id="newAddressMessage" for="newAddress" />
+                    <div class="field">
+                        <p:outputLabel for="availabilityEnd" value="Availability End" />
+                        <p:datePicker id="availabilityEnd" value="#{clientBean.selectedOrder.availabilityEnd}" 
+                                      pattern="yyyy-MM-dd" showIcon="true" />
+                    </div>
 
-                        <h:outputLabel for="newAvailableDay" value="#{msg['client.availableDay']}" />
-                        <p:calendar id="newAvailableDay" value="#{clientBean.newClient.availableDay}" 
-                                    required="true" pattern="dd/MM/yyyy" 
-                                    navigator="true" >
-                            <f:ajax event="dateSelect" render="newAvailableDayMessage" />
-                        </p:calendar>
-                        <h:message id="newAvailableDayMessage" for="newAvailableDay" />
-
-                         Updated with p:calendar for time selection 
-                        <h:outputLabel for="newTimeStart" value="#{msg['client.timeStart']}" />
-                        <p:calendar id="newTimeStart" value="#{clientBean.newClient.timeStart}" 
-                                    pattern="HH:mm" timeOnly="true" required="true">
-                            <f:ajax event="dateSelect" render="newTimeStartMessage" />
-                        </p:calendar>
-                        <h:message id="newTimeStartMessage" for="newTimeStart" />
-
-                        <h:outputLabel for="newTimeEnd" value="#{msg['client.timeEnd']}" />
-                        <p:calendar id="newTimeEnd" value="#{clientBean.newClient.timeEnd}" 
-                                    pattern="HH:mm" timeOnly="true" required="true">
-                            <f:ajax event="dateSelect" render="newTimeEndMessage" />
-                        </p:calendar>
-                        <h:message id="newTimeEndMessage" for="newTimeEnd" />
-
-                        <h:outputLabel for="newQuantity" value="#{msg['client.quantity']}" />
-                        <h:inputText id="newQuantity" value="#{clientBean.newClient.quantity}" required="true">
-                            <f:ajax event="blur" render="newQuantityMessage" />
-                        </h:inputText>
-                        <h:message id="newQuantityMessage" for="newQuantity" />
-
-                        <h:outputLabel for="newProducts" value="#{msg['client.products']}" />
-                        <p:selectCheckboxMenu id="newProducts" value="#{clientBean.selectedProducts}" 
-                                              converter="productConverter" required="true"
-                                              label="#{msg['client.select.products']}" filter="true" filterMatchMode="contains" style="width:300px;">
-                            <f:selectItems value="#{clientBean.products}" var="product" 
-                                           itemValue="#{product}" itemLabel="#{product.name}" />
-                            <f:ajax event="change" render="newProductMessage" />
+                    <div class="field">
+                        <p:outputLabel for="products">Products</p:outputLabel>
+                        <p:selectCheckboxMenu id="products" value="#{clientBean.selectedOrder.orderItems}" 
+                                              label="Select Products" scrollHeight="200" 
+                                              converter="omnifaces.SelectItemsConverter">
+                            <f:selectItems value="#{clientBean.availableProducts}" 
+                                           var="product" 
+                                           itemLabel="#{product.name} - $#{product.price}" 
+                                           itemValue="#{product}" />
+                            <p:ajax event="change" listener="#{clientBean.calculateTotalPrice}" update="totalPrice" />
                         </p:selectCheckboxMenu>
-                        <h:message id="newProductMessage" for="newProducts" />
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="totalPrice">Total Price</p:outputLabel>
+                        <h:outputText id="totalPrice" value="#{clientBean.selectedOrder.totalPrice}">
+                            <f:convertNumber currencySymbol="$" type="currency" />
+                        </h:outputText>
+                    </div>
+                </p:outputPanel>
+            </p:outputPanel>
 
-                        <h:panelGrid>
-                            <p:commandButton value="#{msg['save']}" action="#{clientBean.addClient}"
-                                             update=":clientTable" oncomplete="PF('addDialog').hide();" />
-                            <p:commandButton value="#{msg['cancel']}" onclick="PF('addDialog').hide();" type="button" />
-                        </h:panelGrid>
-                    </h:panelGrid>
-                </h:form>
-            </p:dialog>-->
-           
-            <!-- Edit Client Dialog-->
-<!--                   <p:dialog id="editDialog" widgetVar="editDialog" header="#{msg['edit.client']}" modal="true" closable="true">
-            <h:panelGrid columns="2" cellpadding="5">
+            <f:facet name="footer">
+                <p:commandButton value="Save" icon="pi pi-check" actionListener="#{clientBean.saveOrder}"
+                    process="@form" update=":form:ordersTable :form:messages" oncomplete="PF('editDialog').hide()" />
+                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('editDialog').hide()"
+                    class="ui-button-secondary" type="button" />
+            </f:facet>
+        </p:dialog>
+    </h:form>
 
-                <h:outputLabel for="editName" value="#{msg['client.name']}:" />
-                <h:inputText id="editName" value="#{clientBean.selectedClient.name}" required="true" />
-
-                <h:outputLabel for="editAddress" value="#{msg['client.address']}:" />
-                <h:inputText id="editAddress" value="#{clientBean.selectedClient.address}" required="true" />
-
-                <h:outputLabel for="editTimeStart" value="#{msg['client.timeStart']}:" />
-                <p:calendar id="editTimeStart" value="#{clientBean.selectedClient.timeStart}" timeOnly="true" />
-
-                <h:outputLabel for="editTimeEnd" value="#{msg['client.timeEnd']}:" />
-                <p:calendar id="editTimeEnd" value="#{clientBean.selectedClient.timeEnd}" timeOnly="true" />
-
-                <h:outputLabel for="editAvailableDay" value="#{msg['client.availableDay']}:" />
-                <p:calendar id="editAvailableDay" value="#{clientBean.selectedClient.availableDay}" />
-
-                <h:outputLabel value="#{msg['client.products']}:" />
-                <p:selectManyCheckbox id="editProducts" 
-                                      value="#{clientBean.selectedClient.selectedProducts}" 
-                                      layout="pageDirection">
-                    <f:selectItems value="#{clientBean.productList}" var="product"
-                                   itemValue="#{product}" itemLabel="#{product.name}" />
-                </p:selectManyCheckbox>
-
-                <h:outputLabel for="editQuantity" value="#{msg['client.quantity']}:" />
-                <h:inputText id="editQuantity" value="#{clientBean.selectedClient.quantity}" required="true" />
-
-            </h:panelGrid>
-
-            <p:commandButton value="#{msg['save']}" 
-                             action="#{clientBean.save()}" 
-                             update=":form:clientTable" 
-                             oncomplete="PF('editDialog').hide();" />
-            <p:commandButton value="#{msg['cancel']}" 
-                             onclick="PF('editDialog').hide();" 
-                             type="button" />
-        </p:dialog>-->
-            
-            
-            
-         </h:form>
-    </h:body>
+</h:body>
 </html>
