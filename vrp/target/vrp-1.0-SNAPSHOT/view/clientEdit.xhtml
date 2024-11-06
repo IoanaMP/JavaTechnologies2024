@@ -1,0 +1,61 @@
+<ui:composition template="../WEB-INF/templates/genericDataEdit.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:param name="dataEdit" value="#{database}"/>
+    <ui:param name="examBoolean" value="False"/>
+    <ui:param name="studentBoolean" value="True"/>
+
+    <ui:define name="dataEditContent">
+            <p:outputPanel id="edit-content" class="ui-fluid">
+                <p:outputPanel rendered="#{not empty clientBean.selectedOrder}">
+
+                    <div class="field">
+                        <p:outputLabel for="name">Name</p:outputLabel>
+                        <p:inputText id="name" value="#{clientBean.selectedOrder.clientName}" required="true" />
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="email">Email</p:outputLabel>
+                        <p:inputTextarea id="email" value="#{clientBean.selectedOrder.clientEmail}"/>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="address">Address</p:outputLabel>
+                        <p:inputTextarea id="address" value="#{clientBean.selectedOrder.clientAddress}"/>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="availabilityStart" value="Availability Start" />
+                        <p:datePicker id="availabilityStart" value="#{clientBean.selectedOrder.availabilityStart}" 
+                                      pattern="yyyy-MM-dd" showIcon="true" />
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="availabilityEnd" value="Availability End" />
+                        <p:datePicker id="availabilityEnd" value="#{clientBean.selectedOrder.availabilityEnd}" 
+                                      pattern="yyyy-MM-dd" showIcon="true" />
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="products">Products</p:outputLabel>
+                        <p:selectCheckboxMenu id="products" value="#{clientBean.selectedOrder.orderItems}" 
+                                              label="Select Products" scrollHeight="200" 
+                                              converter="omnifaces.SelectItemsConverter">
+                            <f:selectItems value="#{clientBean.availableProducts}" 
+                                           var="product" 
+                                           itemLabel="#{product.name} - $#{product.price}" 
+                                           itemValue="#{product}" />
+                            <p:ajax event="change" listener="#{clientBean.calculateTotalPrice}" update="totalPrice" />
+                        </p:selectCheckboxMenu>
+                    </div>
+                    <div class="field">
+                        <p:outputLabel for="totalPrice">Total Price</p:outputLabel>
+                        <h:outputText id="totalPrice" value="#{clientBean.selectedOrder.totalPrice}">
+                            <f:convertNumber currencySymbol="$" type="currency" />
+                        </h:outputText>
+                    </div>
+                </p:outputPanel>
+            </p:outputPanel>
+
+    </ui:define>
+</ui:composition>
