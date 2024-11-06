@@ -4,13 +4,14 @@ import info.uaic.vrp.Entities.*;
 import info.uaic.vrp.Services.ClientService;
 import info.uaic.vrp.Services.OrderService;
 import info.uaic.vrp.Services.ProductService;
-import info.uaic.vrp.Utils.DatabaseConnection;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -21,7 +22,8 @@ import org.primefaces.PrimeFaces;
 @SessionScoped
 public class ClientBean implements Serializable {
     private static final long serialVersionUID = 1L;
-
+    private String lastModifiedUser;
+    private Date lastModifiedDate;
     private List<ClientOrderDetails> clients;
     private ClientOrderDetails newClient = new ClientOrderDetails();
     private ClientOrderDetails selectedOrder;
@@ -42,9 +44,12 @@ public class ClientBean implements Serializable {
         try {
             clients = clientService.getAllClientOrders();
             availableProducts = productService.getAll();
+            this.lastModifiedUser = "John Doe";
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DAY_OF_MONTH, -1);
+            Date utilDate = calendar.getTime();
+            this.lastModifiedDate = new java.sql.Date(utilDate.getTime()); 
         } catch (SQLException e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to load client orders."));
         }
     }
     
@@ -66,8 +71,12 @@ public class ClientBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Client and Order Updated"));
         }
 
-        PrimeFaces.current().ajax().update("form:ordersTable");
+        PrimeFaces.current().ajax().update("@form");
         PrimeFaces.current().executeScript("PF('editDialog').hide()");
+    }
+    
+    public void loadClientForEdit(ClientOrderDetails client) {
+        this.selectedOrder = client;
     }
     
     public void openNew() {
@@ -141,4 +150,19 @@ public class ClientBean implements Serializable {
         this.newOrderItem = newOrderItem;
     }
     
+        public String getLastModifiedUser() {
+        return lastModifiedUser;
+    }
+
+    public void setLastModifiedUser(String lastModifiedUser) {
+        this.lastModifiedUser = lastModifiedUser;
+    }
+
+    public Date getLastModifiedTimestamp() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedTimestamp(Date lastModifiedTimestamp) {
+        this.lastModifiedDate = lastModifiedTimestamp;
+    }
 }

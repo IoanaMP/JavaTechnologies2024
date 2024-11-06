@@ -47,11 +47,10 @@
                 </h:outputText>
             </p:column>
             <p:column ariaHeaderText="Actions">
-                <p:commandButton icon="pi pi-pencil"
-                    oncomplete="PF('editDialog').show()"
-                    styleClass="edit-button rounded-button ui-button-success" process="@this">
-                    <f:setPropertyActionListener value="#{order}" target="#{clientBean.selectedOrder}" />
-                </p:commandButton>
+            <p:commandButton value="Edit" icon="pi pi-pencil" 
+                             actionListener="#{clientBean.loadClientForEdit(selectedOrder)}" 
+                             update="@form" 
+                             oncomplete="PF('editDialog').show()" />
             </p:column>
         </p:dataTable>
     </ui:define>
