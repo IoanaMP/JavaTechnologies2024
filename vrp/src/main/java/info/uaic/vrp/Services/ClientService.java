@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
@@ -47,6 +48,8 @@ public class ClientService{
                  "    p.name AS product_name, " +
                  "    oi.quantity AS product_quantity, " +
                  "    p.Id as product_id, " +
+                "    c.x_coordinate as x_coordinate, " +
+                "    c.y_coordinate as y_coordinate, " +
                  "    p.price as product_price " +
                  "FROM " +
                  "    clients c " +
@@ -78,6 +81,8 @@ public class ClientService{
                         rs.getTimestamp("availability_start").toLocalDateTime() : null;
                 LocalDateTime availabilityEnd = rs.getTimestamp("availability_end") != null ? 
                         rs.getTimestamp("availability_end").toLocalDateTime() : null;
+                int x_coordinate = rs.getInt("x_coordinate");
+                int y_coordinate = rs.getInt("y_coordinate");
                 
                 double productPrice = rs.getDouble("product_price");
                 System.out.println("Product Price from DB: " + productPrice); 
@@ -91,7 +96,7 @@ public class ClientService{
                 if (orderDetail == null) {
                     List<Product> orderItems = new ArrayList<>();
                     orderItems.add(orderItem);
-                    orderDetail = new ClientOrderDetails(orderId,clientId, clientName, clientEmail, clientAddress, orderDate,availabilityStart,availabilityEnd, orderItems, orderStatus, totalPrice);
+                    orderDetail = new ClientOrderDetails(orderId,clientId, clientName, clientEmail, clientAddress, orderDate,availabilityStart,availabilityEnd, orderItems, orderStatus, totalPrice,x_coordinate,y_coordinate);
                     orderDetails.add(orderDetail);
                 } else {
                     orderDetail.getOrderItems().add(orderItem);
@@ -105,12 +110,14 @@ public class ClientService{
     }
     
     public int saveClient(ClientOrderDetails client) throws SQLException {
-        String sql = "INSERT INTO clients (name, email, address) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO clients (name, email, address) VALUES (?, ?, ?,?,?)";
         try (Connection connection = dataSource.getConnection();PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, client.getClientName());
             stmt.setString(2, client.getClientEmail());
             stmt.setString(3, client.getClientAddress());
+            stmt.setInt(4, getRandomNumberUsingInts(-20,20));
+            stmt.setInt(5, getRandomNumberUsingInts(-15,15));
 
             int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
@@ -125,6 +132,13 @@ public class ClientService{
                 }
             }
         }
+    }
+    
+    public int getRandomNumberUsingInts(int min, int max) {
+        Random random = new Random();
+        return random.ints(min, max)
+          .findFirst()
+          .getAsInt();
     }
 
     public void updateClient(ClientOrderDetails client) throws SQLException {

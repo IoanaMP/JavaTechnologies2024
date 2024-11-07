@@ -25,10 +25,12 @@ public class ClientOrderDetails {
     private List<Product> orderItems;
     private String orderStatus;
     private double totalPrice;
+    private int x_coordinate;
+    private int y_coordinate;
 
     public ClientOrderDetails(Integer orderId,Integer clientId, String clientName, String clientEmail, String clientAddress,
                               LocalDateTime orderDate, LocalDateTime availabilityStart, LocalDateTime availabilityEnd,
-                              List<Product> orderItems, String orderStatus, double totalPrice) {
+                              List<Product> orderItems, String orderStatus, double totalPrice, int x_coordinate, int y_coordinate) {
         this.orderId = orderId;
         this.clientId = clientId;
         this.clientName = clientName;
@@ -40,6 +42,8 @@ public class ClientOrderDetails {
         this.orderItems = orderItems;
         this.orderStatus = orderStatus;
         this.totalPrice = totalPrice;
+        this.x_coordinate = x_coordinate;
+        this.y_coordinate = y_coordinate;
     }
 
     public ClientOrderDetails() {
@@ -122,4 +126,10 @@ public class ClientOrderDetails {
     public void setAvailabilityEnd(LocalDateTime availabilityEnd) {
         this.availabilityEnd = availabilityEnd;
     }
+    
+    public int getXCoord() { return x_coordinate; }
+    public void setxCoord(int x_coordinate) { this.x_coordinate = x_coordinate; }
+    
+    public int getYCoord() { return y_coordinate; }
+    public void setYCoord(int y_coordinate) { this.y_coordinate = y_coordinate; }
 }
