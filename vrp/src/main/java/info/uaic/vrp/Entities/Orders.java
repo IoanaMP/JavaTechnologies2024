@@ -4,26 +4,44 @@
  */
 package info.uaic.vrp.Entities;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.io.Serializable;
+
 
 /**
  *
  * @author ioana
  */
-public class Orders {
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "orders")
+@NamedQueries({
+    @NamedQuery(name = "Orders.findAll", query = "SELECT o FROM Orders o"),
+    @NamedQuery(name = "Orders.findById", query = "SELECT o FROM Orders o WHERE o.id = :id"),
+    @NamedQuery(name = "Orders.findByClientId", query = "SELECT o FROM Orders o WHERE o.client.id = :clientId")
+})
+public class Orders implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int clientId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
+
     private LocalDateTime orderDate;
     private BigDecimal totalPrice;
     private int statusId;
     private LocalDateTime availabilityStart;
     private LocalDateTime availabilityEnd;
 
-    // Constructor
-    public Orders(int id, int clientId, LocalDateTime orderDate, BigDecimal totalPrice, int statusId, LocalDateTime availabilityStart, LocalDateTime availabilityEnd) {
-        this.id = id;
-        this.clientId = clientId;
+    public Orders() {}
+
+    public Orders(Client client, LocalDateTime orderDate, BigDecimal totalPrice, int statusId, LocalDateTime availabilityStart, LocalDateTime availabilityEnd) {
+        this.client = client;
         this.orderDate = orderDate;
         this.totalPrice = totalPrice;
         this.statusId = statusId;
@@ -31,12 +49,11 @@ public class Orders {
         this.availabilityEnd = availabilityEnd;
     }
 
-    // Getters and Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    public int getClientId() { return clientId; }
-    public void setClientId(int clientId) { this.clientId = clientId; }
+    public Client getClient() { return client; }
+    public void setClient(Client client) { this.client = client; }
 
     public LocalDateTime getOrderDate() { return orderDate; }
     public void setOrderDate(LocalDateTime orderDate) { this.orderDate = orderDate; }

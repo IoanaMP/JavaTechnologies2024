@@ -3,29 +3,59 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package info.uaic.vrp.Entities;
+import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.*;
 
 /**
  *
  * @author ioana
  */
-public class Product {
-    
+
+@Entity
+@Table(name = "products")
+@NamedQueries({
+    @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
+    @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id")
+})
+public class Product implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "weight")
     private Double weight;
+
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
+
+    @Column(name = "price", nullable = false)
     private double price;
+
+    @Transient
     private Double totalPrice;
+
+    @Transient
     private boolean selected;
-    
+
+    // Constructors
     public Product(Integer productId, String name, double price, Integer quantity) {
         this.id = productId;
         this.name = name;
-//        this.description = description;
-//        this.weight = weight;
         this.quantity = quantity;
+        this.price = price;
+    }
+    
+    public Product(String name, Double price) {
+        this.name = name;
         this.price = price;
     }
 
@@ -33,15 +63,12 @@ public class Product {
     }
 
     // Getters and Setters
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        System.out.println(this);
-        System.out.println(obj);
         Product product = (Product) obj;
-        
         return Objects.equals(id, product.id);
     }
 
@@ -49,6 +76,8 @@ public class Product {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    // Getters and Setters for all fields
 
     public Integer getId() {
         return id;
@@ -89,24 +118,23 @@ public class Product {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
-    
+
     public double getPrice() {
         return price;
     }
 
     public void setPrice(double price) {
-        System.out.print(price);
         this.price = price;
     }
-    
+
     public boolean isSelected() {
         return selected;
     }
 
-    public void setSelected(Boolean selected) {
+    public void setSelected(boolean selected) {
         this.selected = selected;
     }
-    
+
     public Double getTotalPrice() {
         return totalPrice;
     }

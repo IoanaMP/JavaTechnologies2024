@@ -1,0 +1,68 @@
+-J-Duser.language=
+-J-Duser.country=
+@options
+@packages
+-classpath
+'C:/Users/ioana/.m2/repository/junit/junit/4.11/junit-4.11.jar;C:/Users/ioana/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar;C:/Users/ioana/.m2/repository/javax/javaee-api/8.0/javaee-api-8.0.jar;C:/Users/ioana/.m2/repository/com/sun/mail/javax.mail/1.6.0/javax.mail-1.6.0.jar;C:/Users/ioana/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar;C:/Users/ioana/.m2/repository/org/postgresql/postgresql/42.2.16/postgresql-42.2.16.jar;C:/Users/ioana/.m2/repository/org/primefaces/primefaces/14.0.6/primefaces-14.0.6.jar;C:/Users/ioana/.m2/repository/org/omnifaces/omnifaces/4.5.1/omnifaces-4.5.1.jar'
+-encoding
+'UTF-8'
+-protected
+-source
+'1.8'
+-sourcepath
+'D:/Facultate/Java/labs/vrp/vrp/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2024. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'D:/Facultate/Java/labs/vrp/vrp/target/reports/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'vrp-1.0-SNAPSHOT 1.0-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/javase/8/docs/api' 'D:/Facultate/Java/labs/vrp/vrp/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'vrp-1.0-SNAPSHOT 1.0-SNAPSHOT API'
+info.uaic.vrp.Bean
+info.uaic.vrp.Entities
+info.uaic.vrp
+info.uaic.vrp.resources
+info.uaic.vrp.Services
+info.uaic.vrp.Utils
+info.uaic.vrp.Utils.Enums
+C:\Users\ioana\.m2\repository\junit\junit\4.11\junit-4.11.jar = 1731355343548
+C:\Users\ioana\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar = 1731271135544
+C:\Users\ioana\.m2\repository\javax\javaee-api\8.0\javaee-api-8.0.jar = 1729452053938
+C:\Users\ioana\.m2\repository\com\sun\mail\javax.mail\1.6.0\javax.mail-1.6.0.jar = 1729452053701
+C:\Users\ioana\.m2\repository\javax\activation\activation\1.1\activation-1.1.jar = 1729452053620
+C:\Users\ioana\.m2\repository\org\postgresql\postgresql\42.2.16\postgresql-42.2.16.jar = 1730311293462
+C:\Users\ioana\.m2\repository\org\primefaces\primefaces\14.0.6\primefaces-14.0.6.jar = 1730311293687
+C:\Users\ioana\.m2\repository\org\omnifaces\omnifaces\4.5.1\omnifaces-4.5.1.jar = 1731275321128
+D:\Facultate\Java\labs\vrp\vrp\src\main\java = 1730753837883
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\allclasses-index.html = 1731361968402
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\allclasses.html = 1731361968411
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\allpackages-index.html = 1731361968404
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\constant-values.html = 1731361968241
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\deprecated-list.html = 1731361968409
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\element-list = 1731361968201
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\help-doc.html = 1731361968420
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\index-all.html = 1731361968396
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\index.html = 1731361968416
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\jquery-ui.overrides.css = 1731361968442
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\member-search-index.js = 1731361968393
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\member-search-index.zip = 1731361968394
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\overview-summary.html = 1731361968417
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\overview-tree.html = 1731361968367
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\package-search-index.js = 1731361968389
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\package-search-index.zip = 1731361968391
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\script.js = 1731361968423
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\search.js = 1731361968425
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\serialized-form.html = 1731361968251
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\stylesheet.css = 1731361968422
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\type-search-index.js = 1731361968392
+D:\Facultate\Java\labs\vrp\vrp\target\reports\apidocs\type-search-index.zip = 1731361968392

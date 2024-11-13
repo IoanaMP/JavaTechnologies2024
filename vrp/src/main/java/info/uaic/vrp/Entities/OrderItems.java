@@ -4,28 +4,53 @@
  */
 package info.uaic.vrp.Entities;
 
+import java.io.Serializable;
+import javax.persistence.*;
 /**
  *
  * @author ioana
  */
-public class OrderItems {
-    private int orderId;
-    private int productId;  
+@Entity
+@Table(name = "order_items")
+@NamedQueries({
+    @NamedQuery(name = "OrderItems.findByOrderId", query = "SELECT o FROM OrderItems o WHERE o.id.orderId = :orderId"),
+    @NamedQuery(name = "OrderItems.findByProductId", query = "SELECT o FROM OrderItems o WHERE o.id.productId = :productId")
+})
+public class OrderItems implements Serializable {
+
+    @EmbeddedId
+    private OrderItemsId id = new OrderItemsId();
+
+    @ManyToOne
+    @MapsId("orderId")
+    @JoinColumn(name = "order_id", nullable = false)
+    private Orders order;
+
+    @ManyToOne
+    @MapsId("productId")
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
+
+    @Column(name = "quantity", nullable = false)
     private int quantity;
 
-    // Constructor
-    public OrderItems(int orderId, int productId, int quantity) {
-        this.orderId = orderId;
-        this.productId = productId;
+    public OrderItems() {}
+
+    public OrderItems(Orders order, Product product, int quantity) {
+        this.order = order;
+        this.product = product;
         this.quantity = quantity;
+        this.id = new OrderItemsId(order.getId(), product.getId());
     }
 
-    // Getters and Setters
-    public int getOrderId() { return orderId; }
-    public void setOrderId(int orderId) { this.orderId = orderId; }
+    public OrderItemsId getId() { return id; }
+    public void setId(OrderItemsId id) { this.id = id; }
 
-    public int getProductId() { return productId; }
-    public void setProductId(int productId) { this.productId = productId; }
+    public Orders getOrder() { return order; }
+    public void setOrder(Orders order) { this.order = order; }
+
+    public Product getProduct() { return product; }
+    public void setProduct(Product product) { this.product = product; }
 
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
