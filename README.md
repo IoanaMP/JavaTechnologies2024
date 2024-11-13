@@ -22,7 +22,7 @@ For the LoggingFilter I use the logRequest function created in the first Laborat
 The AppConfigListener saves in sessions the contect init parameters coda and prelude(declared in web.xml) and the ResponseWrapperFilter add this two to all responses.
 For the Captcha I used Google [reCaptcha](https://www.google.com/recaptcha/about/). They handle the verification, so the one from backend is somehow a formal verification. I ensure that the g-recaptcha-response token is valid by sending it to the Google API. Google responds whether the user passed or failed the CAPTCHA. If it has error, I display an error message.
 
-Laboratory 3
+Laboratory 3(not presented - i wasn't able to attend the laboratory)
 
 Compulsory and Homework:
 
@@ -30,6 +30,19 @@ As recommended, I use a PostgreSql database, JSF 2.3 with Maven, I switched the 
 I made two pages products.xhtml and clienta.xhtml to display the data in a PrimeFaces dataTable format. 
 The first page index.xhtml has a dropdown to choose the language(english or romanian) and two buttons to navigate to one of the two pages mentioned above. The language change will be applied to the headers and buttons. The translations can be found in /resources/messages_en or_ro.properties.
 In webapp/WEB-INF/facs-config.xml I put resource bundle and the navigation rules.
-Add and Edit Client TBA...
+Add and Edit Client with order were added later, with laboratory 4.
 
+Laboratory 4
+I used Payara Admin Console to create a  JBDC Connection Pool and a JBDC Resource. Then, I configured them in my application by adding a payara-web.xml where I put my JNDI name and modifying the Utils/DatabaseConnection file. I use this in Services with the Resource annotation @Resource(name = "myConn").
+In webapp/WEB-INF/shared I defined componenets for header, footer and menu. This are used in /WEB-INF/templates/page.xhtml, the component with the basic structure of the application.
+dataView.xhtml is a component that displays dataTAble components like clientTable and productsTable.
+dataEdit.xhtml is a generic component for editing a form, used for the edit dialog in clientEdit. The dataEdit contains a composite component for displaying the last user who modified the data, and the timestamp of the operation defined in webapp/WEB-INF/templates/loadMessage
+
+For the Bonus part, we created an algorithm that starts from the current date, 8:00 a.m. and starting from the warehouse at position (0,0) I look for the closest available customer, after this is found, I move to the customer and starting with the arrival time I look for the next closest available customer in the remaining time
+
+Laboratory 5
+For this tasks, I configured the resource created in the previous laboratory in persistence.xml and I made a test in test/java/ProductTest.java, testProductPersistence.
+Then I modified the Entities for Product, Client, Orders and OrderItems using JPA-only annotations and I created basic queries using JPA-QL. For OrderItems I have a OrderItemsId that is an @Embeddable used as the composite key(orderId and productId) and @EmbeddedId in OrderItems embeds OrderItemsId as the primary key.
+I created the repositories for Product, Client and Orders with simple CRUD operations. 
+I made a complete test unit for the CRUD operations for Products in test/java/ProductTest.java
 
