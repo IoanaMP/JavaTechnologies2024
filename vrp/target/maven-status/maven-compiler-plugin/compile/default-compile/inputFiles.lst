@@ -1,5 +1,6 @@
 D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Services\OrderService.java
 D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Entities\Orders.java
+D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Repositories\ClientRepository.java
 D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Entities\Product.java
 D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Utils\DatabaseConnection.java
 D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Utils\ProductConverter.java
@@ -8,8 +9,10 @@ D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Entities\OrderItems.j
 D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Utils\Enums\OrderStatusEnum.java
 D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Bean\DeliveryBean.java
 D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\JAXRSConfiguration.java
+D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Entities\OrderItemsId.java
 D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Bean\ClientBean.java
 D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Entities\ClientOrderDetails.java
+D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Repositories\OrdersRepository.java
 D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Entities\OrderStatus.java
 D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Services\ClientService.java
 D:\Facultate\Java\labs\vrp\vrp\src\main\java\info\uaic\vrp\Bean\LocaleBean.java

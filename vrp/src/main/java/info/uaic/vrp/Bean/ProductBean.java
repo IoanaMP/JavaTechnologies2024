@@ -5,12 +5,9 @@
 package info.uaic.vrp.Bean;
 
 import info.uaic.vrp.Entities.Product;
-import info.uaic.vrp.Services.ProductService;
-import info.uaic.vrp.Utils.DatabaseConnection;
+import info.uaic.vrp.Repositories.ProductRepository;
 import java.io.Serializable;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -23,35 +20,50 @@ import javax.inject.Named;
  */
 @Named("productBean")
 @SessionScoped
-public class ProductBean implements Serializable{
+public class ProductBean implements Serializable {
+
     private Product product = new Product();
     private List<Product> products;
-    @Inject
-    private ProductService productService;
-    
-    
-    @PostConstruct
-    public void init(){
 
+    @Inject
+    private ProductRepository productRepository;
+
+    @PostConstruct
+    public void init() {
+        loadProducts();
+    }
+
+    public void loadProducts() {
         try {
-            this.products = productService.getAll();
-            System.out.println("Loading products...");
-            for (Product product : products) {
-                System.out.println("Product ID: " + product.getId() + ", Name: " + product.getName());
-            }
-            System.out.print(this.products);
-        } catch (SQLException e) {
+            this.products = productRepository.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public String saveProduct(){
+    public String viewProductsTable() {
+        loadProducts();
+        return "productsTable";
+    }
+
+    public String saveProduct() {
         try {
-            productService.save(product);
-            products = (List<Product>) productService.getAll(); 
+            productRepository.create(product);
+            loadProducts();
             product = new Product();
-            return "products?faces-redirect=true";
-        } catch (SQLException e) {
+            return "productsTable?faces-redirect=true";
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
+        }
+    }
+    
+    public void deleteProduct(Product productToDelete) {
+        try {
+            productRepository.remove(productToDelete);
+            loadProducts();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

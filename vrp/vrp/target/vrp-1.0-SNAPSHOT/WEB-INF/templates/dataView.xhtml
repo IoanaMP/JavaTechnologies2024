@@ -1,0 +1,17 @@
+<ui:composition template="/WEB-INF/templates/page.xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="content">
+<!--        <h:form id="dataViewMsg">
+            <p:messages id="messages" for="dataForm" showDetail="false"
+                        autoUpdate="true" closable="true"/>
+        </h:form>-->
+        <h:form id="form" style="background: white">
+            <ui:insert name="dataViewContent">
+               
+            </ui:insert>
+        </h:form>
+        <ui:insert name="dialogs"/>
+    </ui:define>
+</ui:composition>
