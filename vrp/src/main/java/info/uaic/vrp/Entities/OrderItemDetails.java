@@ -11,6 +11,7 @@ import java.math.BigDecimal;
  * @author ioana
  */
 public class OrderItemDetails {
+        // old 
     private Integer productId;
     private String productName;
     private boolean selected;

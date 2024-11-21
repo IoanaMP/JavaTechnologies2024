@@ -6,10 +6,12 @@ package info.uaic.vrp.Repositories;
 import javax.persistence.*;
 import java.util.List;
 import info.uaic.vrp.Entities.Client;
+import javax.ejb.Stateless;
 /**
  *
  * @author ioana
  */
+@Stateless
 public class ClientRepository {
 
     @PersistenceContext
@@ -26,43 +28,25 @@ public class ClientRepository {
     }
 
     public void create(Client client) {
-        EntityTransaction transaction = em.getTransaction();
         try {
-            transaction.begin();
             em.persist(client);
-            transaction.commit();
         } catch (PersistenceException e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Error while creating client", e);
         }
     }
 
     public void update(Client client) {
-        EntityTransaction transaction = em.getTransaction();
         try {
-            transaction.begin();
             em.merge(client);
-            transaction.commit();
         } catch (PersistenceException e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Error while updating client", e);
         }
     }
 
     public void delete(Client client) {
-        EntityTransaction transaction = em.getTransaction();
         try {
-            transaction.begin();
             em.remove(em.contains(client) ? client : em.merge(client));
-            transaction.commit();
         } catch (PersistenceException e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Error while deleting client", e);
         }
     }

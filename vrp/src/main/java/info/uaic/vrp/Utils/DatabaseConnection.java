@@ -33,9 +33,9 @@ public class DatabaseConnection {
 //        return DriverManager.getConnection(URL, USER, PASSWORD);
 //    }
 
-    public Connection getConnection() throws Exception {
-        Context ctx = new InitialContext();
-        DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/PostgresDS");
-        return ds.getConnection();
-    }
+//    public Connection getConnection() throws Exception {
+//        Context ctx = new InitialContext();
+//        DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/PostgresDS");
+//        return ds.getConnection();
+//    }
 }

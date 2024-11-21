@@ -49,7 +49,7 @@ public class Client implements Serializable {
     private double yCoordinate;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Orders> orders;
+    private List<Order> orders;
 
     // Getters and Setters
 
@@ -125,11 +125,11 @@ public class Client implements Serializable {
         this.yCoordinate = yCoordinate;
     }
 
-    public List<Orders> getOrders() {
+    public List<Order> getOrders() {
         return orders;
     }
 
-    public void setOrders(List<Orders> orders) {
+    public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
 }

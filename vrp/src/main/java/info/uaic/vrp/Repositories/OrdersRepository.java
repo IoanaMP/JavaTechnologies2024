@@ -6,31 +6,33 @@ package info.uaic.vrp.Repositories;
 import javax.persistence.*;
 import java.util.List;
 import info.uaic.vrp.Entities.*;
+import javax.ejb.Stateless;
 /**
  *
  * @author ioana
  */
+@Stateless
 public class OrdersRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<Orders> findAll() {
-        return em.createNamedQuery("Orders.findAll", Orders.class).getResultList();
+    public List<Order> findAll() {
+        return em.createNamedQuery("Orders.findAll", Order.class).getResultList();
     }
 
-    public Orders findById(int id) {
-        return em.createNamedQuery("Orders.findById", Orders.class)
+    public Order findById(int id) {
+        return em.createNamedQuery("Orders.findById", Order.class)
                  .setParameter("id", id)
                  .getSingleResult();
     }
 
-    public List<Orders> findByClientId(int clientId) {
-        return em.createNamedQuery("Orders.findByClientId", Orders.class)
+    public List<Order> findByClientId(int clientId) {
+        return em.createNamedQuery("Orders.findByClientId", Order.class)
                  .setParameter("clientId", clientId)
                  .getResultList();
     }
 
-    public void create(Orders order) {
+    public void create(Order order) {
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
@@ -44,7 +46,7 @@ public class OrdersRepository {
         }
     }
 
-    public void update(Orders order) {
+    public void update(Order order) {
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
@@ -58,7 +60,7 @@ public class OrdersRepository {
         }
     }
 
-    public void delete(Orders order) {
+    public void delete(Order order) {
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();

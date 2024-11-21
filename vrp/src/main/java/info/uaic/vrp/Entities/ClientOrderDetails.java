@@ -14,6 +14,7 @@ import java.util.List;
  */
 
 public class ClientOrderDetails {
+    // old 
     private Integer clientId;
     private Integer orderId;
     private String clientName;

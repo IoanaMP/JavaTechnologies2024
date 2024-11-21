@@ -31,7 +31,7 @@ public class ProductService {
             stmt.setString(1, product.getName());
             stmt.setString(2, product.getDescription());
             stmt.setDouble(3, product.getWeight());
-            stmt.setInt(4, product.getQuantity());
+            stmt.setInt(4, product.getStock());
             stmt.executeUpdate();
 
             ResultSet keys = stmt.getGeneratedKeys();
@@ -53,7 +53,7 @@ public class ProductService {
                 product.setDescription(rs.getString("description"));
                 product.setPrice(rs.getDouble("price"));
                 product.setWeight(rs.getDouble("weight"));
-                product.setQuantity(rs.getInt("quantity"));
+                product.setStock(rs.getInt("quantity"));
                 products.add(product);
             }
         }

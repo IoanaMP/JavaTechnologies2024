@@ -50,7 +50,7 @@ public class ProductTest {
         productRepositoryMock = new ProductRepository();
         productMock.setName(nameMock);
         productMock.setPrice(120.0);
-        productMock.setQuantity(10);
+        productMock.setStock(10);
         em.getTransaction().begin();
         em.persist(productMock); 
         em.getTransaction().commit();

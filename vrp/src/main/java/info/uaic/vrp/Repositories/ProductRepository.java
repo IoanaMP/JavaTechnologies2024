@@ -7,13 +7,14 @@ package info.uaic.vrp.Repositories;
 import javax.persistence.EntityManager;
 import java.util.List;
 import info.uaic.vrp.Entities.Product;
-import javax.persistence.EntityTransaction;
+import javax.ejb.Stateless;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 /**
  *
  * @author ioana
  */
+@Stateless
 public class ProductRepository {
 
     @PersistenceContext
@@ -36,43 +37,25 @@ public class ProductRepository {
     }
 
     public void create(Product product) {
-        EntityTransaction transaction = em.getTransaction();
         try {
-            transaction.begin();
             em.persist(product);
-            transaction.commit();
         } catch (PersistenceException e) {
-            if (transaction.isActive()) {
-                transaction.rollback(); 
-            }
             throw new RuntimeException("Error while creating product", e);
         }
     }
 
     public void edit(Product product) {
-        EntityTransaction transaction = em.getTransaction();
         try {
-            transaction.begin();
             em.merge(product);
-            transaction.commit();
         } catch (PersistenceException e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Error while updating product", e);
         }
     }
 
     public void remove(Product product) {
-        EntityTransaction transaction = em.getTransaction();
         try {
-            transaction.begin();
-            em.remove(em.contains(product) ? product : em.merge(product));
-            transaction.commit();
+            em.remove(em.contains(product) ? product : em.merge(product)); 
         } catch (PersistenceException e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
             throw new RuntimeException("Error while removing product", e);
         }
     }

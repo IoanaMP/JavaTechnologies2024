@@ -35,7 +35,7 @@ public class Product implements Serializable {
     @Column(name = "weight")
     private Double weight;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "stock", nullable = false)
     private Integer quantity;
 
     @Column(name = "price", nullable = false)
@@ -112,11 +112,11 @@ public class Product implements Serializable {
         this.weight = weight;
     }
 
-    public Integer getQuantity() {
+    public Integer getStock() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setStock(Integer quantity) {
         this.quantity = quantity;
     }
 

@@ -31,83 +31,83 @@ public class ClientBean implements Serializable {
     private Product newOrderItem = new Product();
     private boolean orderItems;
     
-
-    @Inject
-    private ClientService clientService;
-    @Inject
-    private OrderService orderService;
-    @Inject
-    private ProductService productService;
-
-    @PostConstruct
-    public void init() {
-        try {
-            clients = clientService.getAllClientOrders();
-            availableProducts = productService.getAll();
-            this.lastModifiedUser = "John Doe";
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DAY_OF_MONTH, -1);
-            Date utilDate = calendar.getTime();
-            this.lastModifiedDate = new java.sql.Date(utilDate.getTime()); 
-        } catch (SQLException e) {
-        }
-    }
-    
-    public void saveOrder() throws SQLException {
-        if (this.selectedOrder.getOrderId() == null) {
-            Integer clientId = clientService.saveClient(selectedOrder);
-            System.out.print(clientId);
-            selectedOrder.setClientId(clientId);
-            Integer orderId = orderService.saveOrder(selectedOrder);
-            selectedOrder.setOrderId(orderId);
-            orderService.saveOrderItems(orderId,selectedOrder.getOrderItems());
-
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Client and Order Added"));
-        }
-        else {
-            clientService.updateClient(selectedOrder);
-            orderService.updateOrder(selectedOrder);
-            orderService.updateOrderItems(selectedOrder.getOrderId(),selectedOrder.getOrderItems());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Client and Order Updated"));
-        }
-
-        PrimeFaces.current().ajax().update("@form");
-        PrimeFaces.current().executeScript("PF('editDialog').hide()");
-    }
-    
-    public void loadClientForEdit(ClientOrderDetails client) {
-        this.selectedOrder = client;
-    }
-    
-    public void openNew() {
-        this.selectedOrder = new ClientOrderDetails();
-        if (this.selectedOrder.getOrderItems() == null) {
-            this.selectedOrder.setOrderItems(new ArrayList<>());
-        }
-    }
-    
-    public void calculateTotalPrice() {
-        if (selectedOrder != null && selectedOrder.getOrderItems() != null) {
-            List<Product> matchedProducts = new ArrayList<>();
-            for (Product selectedProduct : selectedOrder.getOrderItems()) {
-                for (Product availableProduct : availableProducts) {
-                    if (availableProduct.getId().equals(selectedProduct.getId())) {
-                        System.out.print(availableProduct);
-                        matchedProducts.add(availableProduct);
-                        break;
-                    }
-                }
-            }
-            selectedOrder.setOrderItems(matchedProducts);
-
-            double totalPrice = 0.0;
-            for (Product prod : selectedOrder.getOrderItems()) {
-                System.out.println("Selected Product ID: " + prod.getId() + ", Name: " + prod.getName() + ", Price: " + prod.getPrice());
-                totalPrice += prod.getPrice();
-            }
-            selectedOrder.setTotalPrice(totalPrice);
-        }
-    }
+//
+//    @Inject
+//    private ClientService clientService;
+//    @Inject
+//    private OrderService orderService;
+//    @Inject
+//    private ProductService productService;
+//
+//    @PostConstruct
+//    public void init() {
+//        try {
+//            clients = clientService.getAllClientOrders();
+//            availableProducts = productService.getAll();
+//            this.lastModifiedUser = "John Doe";
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.add(Calendar.DAY_OF_MONTH, -1);
+//            Date utilDate = calendar.getTime();
+//            this.lastModifiedDate = new java.sql.Date(utilDate.getTime()); 
+//        } catch (SQLException e) {
+//        }
+//    }
+//    
+//    public void saveOrder() throws SQLException {
+//        if (this.selectedOrder.getOrderId() == null) {
+//            Integer clientId = clientService.saveClient(selectedOrder);
+//            System.out.print(clientId);
+//            selectedOrder.setClientId(clientId);
+//            Integer orderId = orderService.saveOrder(selectedOrder);
+//            selectedOrder.setOrderId(orderId);
+//            orderService.saveOrderItems(orderId,selectedOrder.getOrderItems());
+//
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Client and Order Added"));
+//        }
+//        else {
+//            clientService.updateClient(selectedOrder);
+//            orderService.updateOrder(selectedOrder);
+//            orderService.updateOrderItems(selectedOrder.getOrderId(),selectedOrder.getOrderItems());
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Client and Order Updated"));
+//        }
+//
+//        PrimeFaces.current().ajax().update("@form");
+//        PrimeFaces.current().executeScript("PF('editDialog').hide()");
+//    }
+//    
+//    public void loadClientForEdit(ClientOrderDetails client) {
+//        this.selectedOrder = client;
+//    }
+//    
+//    public void openNew() {
+//        this.selectedOrder = new ClientOrderDetails();
+//        if (this.selectedOrder.getOrderItems() == null) {
+//            this.selectedOrder.setOrderItems(new ArrayList<>());
+//        }
+//    }
+//    
+//    public void calculateTotalPrice() {
+//        if (selectedOrder != null && selectedOrder.getOrderItems() != null) {
+//            List<Product> matchedProducts = new ArrayList<>();
+//            for (Product selectedProduct : selectedOrder.getOrderItems()) {
+//                for (Product availableProduct : availableProducts) {
+//                    if (availableProduct.getId().equals(selectedProduct.getId())) {
+//                        System.out.print(availableProduct);
+//                        matchedProducts.add(availableProduct);
+//                        break;
+//                    }
+//                }
+//            }
+//            selectedOrder.setOrderItems(matchedProducts);
+//
+//            double totalPrice = 0.0;
+//            for (Product prod : selectedOrder.getOrderItems()) {
+//                System.out.println("Selected Product ID: " + prod.getId() + ", Name: " + prod.getName() + ", Price: " + prod.getPrice());
+//                totalPrice += prod.getPrice();
+//            }
+//            selectedOrder.setTotalPrice(totalPrice);
+//        }
+//    }
         
     public List<ClientOrderDetails> getClients() {
         return clients;

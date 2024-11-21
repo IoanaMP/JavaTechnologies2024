@@ -3,9 +3,12 @@
   <!-- Define Persistence Unit -->
   <persistence-unit name="pu" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <jta-data-source>java:comp/env/jdbc/PostgresDS</jta-data-source>
+    <jta-data-source>jdbc/PostgresDS</jta-data-source>
+
     <class>info.uaic.vrp.Entities.Product</class>
-    
+    <class>info.uaic.vrp.Entities.Client</class>
+    <class>info.uaic.vrp.Entities.Order</class>
+     <class>info.uaic.vrp.Entities.OrderItem</class>
     <properties>
      <property name="eclipselink.logging.level" value="FINE"/>
      </properties>
