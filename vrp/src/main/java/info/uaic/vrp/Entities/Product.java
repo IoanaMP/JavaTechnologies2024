@@ -4,6 +4,7 @@
  */
 package info.uaic.vrp.Entities;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 import javax.persistence.*;
 
@@ -17,7 +18,8 @@ import javax.persistence.*;
 @NamedQueries({
     @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
     @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
-    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p")
+    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
+    @NamedQuery(name="Product.findAvailableProducts", query="SELECT p FROM Product p WHERE p.stock > 0")
 })
 public class Product implements Serializable {
 
@@ -36,26 +38,26 @@ public class Product implements Serializable {
     private Double weight;
 
     @Column(name = "stock", nullable = false)
-    private Integer quantity;
+    private Integer stock;
 
     @Column(name = "price", nullable = false)
-    private double price;
+    private BigDecimal price;
 
     @Transient
-    private Double totalPrice;
+    private BigDecimal totalPrice;
 
     @Transient
     private boolean selected;
 
     // Constructors
-    public Product(Integer productId, String name, double price, Integer quantity) {
+    public Product(Integer productId, String name, BigDecimal price, Integer stock) {
         this.id = productId;
         this.name = name;
-        this.quantity = quantity;
+        this.stock = stock;
         this.price = price;
     }
     
-    public Product(String name, Double price) {
+    public Product(String name, BigDecimal price) {
         this.name = name;
         this.price = price;
     }
@@ -113,18 +115,18 @@ public class Product implements Serializable {
     }
 
     public Integer getStock() {
-        return quantity;
+        return stock;
     }
 
-    public void setStock(Integer quantity) {
-        this.quantity = quantity;
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -136,11 +138,11 @@ public class Product implements Serializable {
         this.selected = selected;
     }
 
-    public Double getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(Double totalPrice) {
+    public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
 }

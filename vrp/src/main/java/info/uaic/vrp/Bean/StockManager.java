@@ -8,12 +8,18 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import info.uaic.vrp.Entities.Product;
+import info.uaic.vrp.Repositories.ProductRepository;
+import java.util.List;
+import javax.inject.Inject;
 /**
  *
  * @author ioana
  */
 @Stateless
 public class StockManager {
+
+    @Inject
+    private ProductRepository productRepository;
 
     @PersistenceContext
     private EntityManager em;
@@ -33,5 +39,9 @@ public class StockManager {
             return true;
         }
         return false;
+    }
+
+    public List<Product> getAvailableProducts() {
+        return productRepository.findAvailableProducts();
     }
 }

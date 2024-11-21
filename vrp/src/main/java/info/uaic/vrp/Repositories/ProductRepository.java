@@ -35,6 +35,11 @@ public class ProductRepository {
                  .setParameter("name", name)
                  .getSingleResult();
     }
+    
+    public List<Product> findAvailableProducts() {
+        return em.createNamedQuery("Product.findAvailableProducts", Product.class)
+                 .getResultList();
+    }
 
     public void create(Product product) {
         try {

@@ -30,6 +30,7 @@ public class OrderManager {
 
     private List<OrderItem> items = new ArrayList<>();
     private Client client;
+    private Order currentOrder;
 
     public void setClient(Client client) {
         this.client = client;
@@ -44,15 +45,32 @@ public class OrderManager {
     }
 
     public void placeOrder() {
-        Order order = new Order();
-        order.setClient(client);
-        order.setOrderItems(items);
-        em.persist(order);
+        if (client == null) {
+            throw new IllegalStateException("Client must be set before placing an order.");
+        }
+
+        currentOrder = new Order();
+        currentOrder.setClient(client);
+        currentOrder.setOrderItems(items);
+        em.persist(currentOrder);
 
         for (OrderItem item : items) {
             stockManager.reduceStock(item.getProduct().getId(), item.getQuantity());
         }
 
         items.clear();
+    }
+
+    public Order getCurrentOrder() {
+        if (currentOrder == null) {
+            throw new IllegalStateException("No current order");
+        }
+        return currentOrder;
+    }
+
+    public void reset() {
+        items.clear();
+        client = null;
+        currentOrder = null;
     }
 }

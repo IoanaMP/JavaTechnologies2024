@@ -1,12 +1,8 @@
 info\uaic\vrp\Entities\Client.class
 info\uaic\vrp\Entities\OrderItemsId.class
 info\uaic\vrp\Services\OrderService.class
-info\uaic\vrp\Services\ClientService.class
 info\uaic\vrp\Entities\DeliverySchedule.class
-info\uaic\vrp\Bean\ClientBean.class
-info\uaic\vrp\Bean\DeliveryBean.class
 info\uaic\vrp\Utils\Enums\OrderStatusEnum.class
-info\uaic\vrp\Utils\ProductConverter.class
 info\uaic\vrp\Repositories\OrdersRepository.class
 info\uaic\vrp\Repositories\DataRepository.class
 info\uaic\vrp\JAXRSConfiguration.class
@@ -15,8 +11,6 @@ info\uaic\vrp\Bean\LocaleBean.class
 info\uaic\vrp\Entities\OrderItemDetails.class
 info\uaic\vrp\Entities\Product.class
 info\uaic\vrp\Entities\ClientOrderDetails.class
-info\uaic\vrp\Services\ProductService.class
-info\uaic\vrp\Bean\ProductBean.class
 info\uaic\vrp\Repositories\ClientRepository.class
 info\uaic\vrp\resources\JavaEE8Resource.class
 info\uaic\vrp\Utils\DatabaseConnection.class

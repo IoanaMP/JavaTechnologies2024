@@ -5,6 +5,7 @@
 package info.uaic.vrp.Services;
 import info.uaic.vrp.Entities.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -84,9 +85,9 @@ public class ClientService{
                 int x_coordinate = rs.getInt("x_coordinate");
                 int y_coordinate = rs.getInt("y_coordinate");
                 
-                double productPrice = rs.getDouble("product_price");
+                BigDecimal productPrice = rs.getBigDecimal("product_price");
                 System.out.println("Product Price from DB: " + productPrice); 
-                Product orderItem = new Product(rs.getInt("product_id"), rs.getString("product_name"),rs.getDouble("product_price"), rs.getInt("product_quantity"));
+                Product orderItem = new Product(rs.getInt("product_id"), rs.getString("product_name"),rs.getBigDecimal("product_price"), rs.getInt("product_quantity"));
                 
                 ClientOrderDetails orderDetail = orderDetails.stream()
                     .filter(od -> od.getOrderDate().equals(orderDate) && od.getClientName().equals(clientName))

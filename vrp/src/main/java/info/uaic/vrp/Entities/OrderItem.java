@@ -52,7 +52,7 @@ public class OrderItem implements Serializable {
     }
 
     public BigDecimal getTotalPrice() {
-        BigDecimal price = BigDecimal.valueOf(product.getPrice());
+        BigDecimal price = product.getPrice();
         return price.multiply(BigDecimal.valueOf(quantity));
     }
 

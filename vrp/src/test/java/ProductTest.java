@@ -49,7 +49,7 @@ public class ProductTest {
         EntityManager em = emf.createEntityManager();
         productRepositoryMock = new ProductRepository();
         productMock.setName(nameMock);
-        productMock.setPrice(120.0);
+        //productMock.setPrice(120.0);
         productMock.setStock(10);
         em.getTransaction().begin();
         em.persist(productMock); 
@@ -69,7 +69,7 @@ public class ProductTest {
         em.getTransaction().begin();
         Product product = new Product();
         product.setName("Sample Product");
-        product.setPrice(9.99);
+//        product.setPrice(9.99);
         em.persist(product);
         product = (Product) em.createQuery(
                 "SELECT p FROM Product p WHERE p.name = :name", Product.class)
