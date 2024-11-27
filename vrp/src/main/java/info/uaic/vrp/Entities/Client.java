@@ -40,13 +40,8 @@ public class Client implements Serializable {
 
     @Column(unique = true)
     private String email;
-
-    private String timeStart;
-    private String timeEnd;
-    private String availableDay;
-
-    private double xCoordinate;
-    private double yCoordinate;
+    private double x_coordinate;
+    private double y_coordinate;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> orders;
@@ -85,44 +80,20 @@ public class Client implements Serializable {
         this.email = email;
     }
 
-    public String getTimeStart() {
-        return timeStart;
-    }
-
-    public void setTimeStart(String timeStart) {
-        this.timeStart = timeStart;
-    }
-
-    public String getTimeEnd() {
-        return timeEnd;
-    }
-
-    public void setTimeEnd(String timeEnd) {
-        this.timeEnd = timeEnd;
-    }
-
-    public String getAvailableDay() {
-        return availableDay;
-    }
-
-    public void setAvailableDay(String availableDay) {
-        this.availableDay = availableDay;
-    }
-
     public double getXCoordinate() {
-        return xCoordinate;
+        return x_coordinate;
     }
 
     public void setXCoordinate(double xCoordinate) {
-        this.xCoordinate = xCoordinate;
+        this.x_coordinate = xCoordinate;
     }
 
     public double getYCoordinate() {
-        return yCoordinate;
+        return y_coordinate;
     }
 
     public void setYCoordinate(double yCoordinate) {
-        this.yCoordinate = yCoordinate;
+        this.y_coordinate = yCoordinate;
     }
 
     public List<Order> getOrders() {

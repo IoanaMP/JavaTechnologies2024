@@ -27,20 +27,28 @@ public class Order implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
+    @Column(name = "order_date")
     private LocalDateTime orderDate;
 
-    @Column(precision = 10, scale = 2)
+    @Column(name = "total_weight", nullable = true)
+    private Double totalWeight;
+
+    @Column(name = "total_price")
     private BigDecimal totalPrice;
 
-    private int statusId;
+    @Column(name = "status_id")
+    private Integer statusId;
 
+    @Column(name = "availability_start", nullable = true)
     private LocalDateTime availabilityStart;
+
+    @Column(name = "availability_end", nullable = true)
     private LocalDateTime availabilityEnd;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -87,15 +95,23 @@ public class Order implements Serializable {
     public List<OrderItem> getOrderItems() { return orderItems; }
     public void setOrderItems(List<OrderItem> items) {
         this.orderItems.clear();
+        System.out.print(items.size());
         if (items != null) {
             items.forEach(this::addOrderItem);
         }
     }
 
-    public void addOrderItem(OrderItem item) {
-        orderItems.add(item);
-        item.setOrder(this);
+public void addOrderItem(OrderItem item) {
+    if (item == null) {
+        throw new IllegalArgumentException("OrderItem cannot be null");
     }
+    if (item.getProduct() == null || item.getProduct().getId() == null) {
+        throw new IllegalStateException("Product or Product ID cannot be null for OrderItem: " + item);
+    }
+    
+    orderItems.add(item);
+    item.setOrder(this);
+}
 
     public void removeOrderItem(OrderItem item) {
         orderItems.remove(item);

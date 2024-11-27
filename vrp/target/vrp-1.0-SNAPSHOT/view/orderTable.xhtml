@@ -5,12 +5,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns="http://www.w3.org/1999/xhtml">
     <ui:define name="dataViewContent">
-    <p:dataTable id="checkboxDT" var="product" value="#{orderBean.products}"
-                 selection="#{orderBean.selectedProducts}" rowKey="#{product.id}"
-                 style="margin-bottom:0">
-        
-        <p:column selectionMode="multiple" style="width:16px;text-align:center" />
 
+    <p:dataTable id="productTable" var="product" value="#{orderBean.products}" style="margin-bottom:20px">
         <p:column headerText="Name">
             <h:outputText value="#{product.name}" />
         </p:column>
@@ -18,20 +14,21 @@
         <p:column headerText="Price">
             <h:outputText value="#{product.price}" />
         </p:column>
+        
+        <p:column headerText="Stock">
+            <h:outputText value="#{product.stock}" />
+        </p:column>
 
         <p:column headerText="Quantity">
-            <p:spinner value="#{orderBean.quantities[product.id]}" min="1" max="100" style="width:70px">
+            <p:spinner id="quantitySpinner" value="#{orderBean.quantities[product.id]}" min="0" max="100" style="width:70px">
                 <p:ajax event="change" listener="#{orderBean.calculateTotalPrice}" update=":form:totalPrice" />
             </p:spinner>
         </p:column>
     </p:dataTable>
 
-    <div class="card" style="margin-top:20px">
-        <h3>Total Price: 
-            <h:outputText id="totalPrice" value="#{orderBean.totalPrice}" />
-        </h3>
+    <h3>Total Price: <h:outputText id="totalPrice" value="#{orderBean.totalPrice}" /></h3>
 
-        <p:commandButton value="Place Order" action="#{orderBean.placeOrder}" update="@form" />
-    </div>
+    <p:commandButton value="Place Order" action="#{orderBean.placeOrder}" update="@form" />
+        
     </ui:define>
 </ui:composition>
