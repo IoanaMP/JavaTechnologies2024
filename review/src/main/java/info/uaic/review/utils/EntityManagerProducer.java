@@ -5,8 +5,9 @@
 package info.uaic.review.utils;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
+import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.ws.rs.Produces;
 
 /**
  *
@@ -16,10 +17,10 @@ import javax.ws.rs.Produces;
 public class EntityManagerProducer {
 
     @PersistenceContext(unitName = "punit")
-    private EntityManagerProducer em;
+    private EntityManager em;
 
     @Produces
-    public EntityManagerProducer produceEntityManager() {
+    public EntityManager produceEntityManager() {
         return em;
     }
 }
