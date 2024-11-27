@@ -105,7 +105,8 @@ public void placeOrder() {
         orderManager.placeOrder();
         Order order = orderManager.getCurrentOrder();
         orderRegistry.registerOrder(client, order);
-
+        
+        products = stockManager.getAvailableProducts();
         for (Product product : products) {
             quantities.put(product.getId(), 0);
         }

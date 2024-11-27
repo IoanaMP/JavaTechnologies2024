@@ -1,4 +1,4 @@
-info\uaic\review\entities\Login.class
 info\uaic\review\JakartaRestConfiguration.class
 info\uaic\review\dao\LoginDAO.class
+info\uaic\review\entities\Login.class
 info\uaic\review\resources\JakartaEE8Resource.class

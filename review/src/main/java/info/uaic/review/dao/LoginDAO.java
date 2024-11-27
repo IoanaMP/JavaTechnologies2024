@@ -9,68 +9,36 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.DriverManager;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 /**
  *
  * @author ioana
  */
+@Named
+@ApplicationScoped
 public class LoginDAO {
 
-    public static boolean validate(String user, String password) {
-        Connection con = null;
-        PreparedStatement ps = null;
-        String url = "jdbc:postgresql://localhost:5432/Reviews";
-        String usernameDB = "postgres";
-        String passwordDB = "admin";
+    @Inject
+    private EntityManager em;
 
+    public String getUserRole(String username, String password) {
         try {
-            con = DriverManager.getConnection(url, usernameDB, passwordDB);
-            ps = con.prepareStatement("Select u.username, u.password from Users u where u.username = ? and u.password = ?");
-            ps.setString(1, user);
-            ps.setString(2, password);
+            String query = "SELECT r.name " +
+                           "FROM UserEntity u " +
+                           "JOIN u.roles r " +
+                           "WHERE u.username = :username AND u.password = :password";
 
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                //result found, means valid inputs
-                return true;
-            }
-        } catch (SQLException ex) {
-            System.out.println("Login error --> " + ex.getMessage());
-            return false;
+            return em.createQuery(query, String.class)
+                     .setParameter("username", username)
+                     .setParameter("password", password)
+                     .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
         }
-//        finally {
-//            DataConnect.close(con);
-//        }
-        return false;
-    }
-
-    public static boolean isAdmin(String user, String password) {
-        Connection con = null;
-        PreparedStatement ps = null;
-        String url = "jdbc:postgresql://localhost:5432/Reviews";
-        String usernameDB = "postgres";
-        String passwordDB = "admin";
-
-        try {
-            con = DriverManager.getConnection(url, usernameDB, passwordDB);
-            ps = con.prepareStatement("Select role from users where username = ? and password = ?");
-            ps.setString(1, user);
-            ps.setString(2, password);
-
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                String role = rs.getString("role");
-                boolean isAdmin = "admin".equals(role);
-                if (isAdmin) {
-                    return true;
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Login error -->" + ex.getMessage());
-            return false;
-        }
-        return false;
     }
 }

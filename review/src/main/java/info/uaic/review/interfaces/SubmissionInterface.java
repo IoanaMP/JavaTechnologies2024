@@ -4,10 +4,11 @@
  */
 package info.uaic.review.interfaces;
 
+import info.uaic.review.entities.*;
 /**
  *
  * @author ioana
  */
 public interface SubmissionInterface {
-    
+    void save(EvaluationEntity evaluation);
 }

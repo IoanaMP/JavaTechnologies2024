@@ -44,11 +44,10 @@ public class OrderItem implements Serializable {
         this.id = new OrderItemsId(order.getId(), product.getId());
     }
 
-    // New constructor
     public OrderItem(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
-        this.id = new OrderItemsId(); // ID can be set later when the Order is assigned
+        this.id = new OrderItemsId();
     }
 
     public BigDecimal getTotalPrice() {

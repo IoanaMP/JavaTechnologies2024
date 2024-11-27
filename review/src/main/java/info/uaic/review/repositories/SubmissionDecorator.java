@@ -4,8 +4,11 @@
  */
 package info.uaic.review.repositories;
 
-import info.uaic.review.entities.UserEnntity;
+import info.uaic.review.entities.EvaluationEntity;
+import info.uaic.review.entities.EvaluationPeriod;
+import info.uaic.review.entities.UserEntity;
 import info.uaic.review.interfaces.SubmissionInterface;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import javax.decorator.Decorator;
@@ -25,13 +28,20 @@ public abstract class SubmissionDecorator implements SubmissionInterface {
     @Any
     SubmissionInterface submissionInterface;
 
+    @Inject
+    private EvaluationRepository evaluationRepository;
+
     @Override
-    public void save(UserEnntity user) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        if (hour >= 8 && hour <= 18) {
-            System.out.println("Available submission time");
+    public void save(EvaluationEntity evaluation) {
+        if (!isWithinSubmissionPeriod()) {
+            throw new IllegalStateException("Submission period is not active");
         }
+        submissionInterface.save(evaluation);
+    }
+
+    private boolean isWithinSubmissionPeriod() {
+        EvaluationPeriod period = evaluationRepository.getCurrentEvaluationPeriod();
+        LocalDateTime now = LocalDateTime.now();
+        return period != null && now.isAfter(period.getStartDate()) && now.isBefore(period.getEndDate());
     }
 }

@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 /**
  *
@@ -20,6 +21,9 @@ import javax.inject.Named;
 @Named
 public class Login implements Serializable {
 
+    @Inject
+    private LoginDAO loginDAO;
+    
     private String password;
     private String username;
 
@@ -39,23 +43,21 @@ public class Login implements Serializable {
         this.username = user;
     }
 
-    public String validateUsernamePassword() throws SQLException, IOException {
-        boolean valid = LoginDAO.validate(username, password);
-        System.out.println(valid);
-        if (valid) {
-            if (LoginDAO.isAdmin(username, password)) {
-                return "admin";
-            } else {
-                return "author";
-            }
-        } else {
-            FacesContext.getCurrentInstance().addMessage(
+    public String validateUsernamePassword() {
+            String role = loginDAO.getUserRole(username, password);
+
+            if (role == null) {
+                FacesContext.getCurrentInstance().addMessage(
                     null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
-                            "Incorrect Username and Password",
-                            "Please enter correct username and password"));
-            return "login";
-        }
+                            "Incorrect Username or Password",
+                            "Please enter the correct credentials"));
+                return "login";
+            }
+// de pus in session poate?
+//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("username", username);
+//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("role", role);
+            return role.toLowerCase();
     }
 
 }

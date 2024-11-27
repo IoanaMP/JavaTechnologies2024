@@ -37,7 +37,7 @@ private static final Logger logger = LoggerFactory.getLogger(OrderManager.class)
     private Client client;
     private Order currentOrder;
     
-        @AroundInvoke
+    @AroundInvoke
     public Object logExecution(InvocationContext ctx) throws Exception {
         String className = ctx.getTarget().getClass().getName();
         String methodName = ctx.getMethod().getName();
@@ -47,7 +47,7 @@ private static final Logger logger = LoggerFactory.getLogger(OrderManager.class)
         System.out.println("Entering method: " + target);
 
         try {
-            return ctx.proceed(); // Proceed to the business logic
+            return ctx.proceed();
         } catch (Exception e) {
             System.err.println("Exception in method: " + target + " - " + e.getMessage());
             throw e;
@@ -87,7 +87,7 @@ private static final Logger logger = LoggerFactory.getLogger(OrderManager.class)
 
         currentOrder.setTotalPrice(totalPrice);
         em.persist(currentOrder);
-        em.flush(); // Ensure ID is generated
+        em.flush();
         System.out.println("Order ID after persist and flush: " + currentOrder.getId());
 
         if (items == null || items.isEmpty()) {

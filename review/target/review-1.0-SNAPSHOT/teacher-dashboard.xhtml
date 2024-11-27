@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Teacher Dashboard</title>
+    </h:head>
+    <h:body>
+        <h1>Teacher Dashboard</h1>
+
+        <h:form>
+            <p:dataTable value="#{teacherDashboardBean.evaluations}" var="evaluation" style="width: 100%">
+                <p:column headerText="Student Name">
+                    <h:outputText value="#{evaluation.studentName}" />
+                </p:column>
+                <p:column headerText="Activity Name">
+                    <h:outputText value="#{evaluation.activityName}" />
+                </p:column>
+                <p:column headerText="Activity Type">
+                    <h:outputText value="#{evaluation.activityType}" />
+                </p:column>
+                <p:column headerText="Grade">
+                    <h:outputText value="#{evaluation.grade}" />
+                </p:column>
+                <p:column headerText="Comment">
+                    <h:outputText value="#{evaluation.comment}" />
+                </p:column>
+                <p:column headerText="Timestamp">
+                    <h:outputText value="#{evaluation.timestamp}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
