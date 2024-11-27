@@ -2,37 +2,73 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Admin Dashboard</title>
     </h:head>
     <h:body>
         <h1>Admin Dashboard</h1>
 
-        <h:form>
-            <p:dataTable value="#{adminDashboardBean.evaluations}" var="evaluation" style="width: 100%">
-                <p:column headerText="Student Name">
-                    <h:outputText value="#{evaluation.studentName}" />
-                </p:column>
-                <p:column headerText="Teacher Name">
-                    <h:outputText value="#{evaluation.teacherName}" />
-                </p:column>
-                <p:column headerText="Activity Name">
-                    <h:outputText value="#{evaluation.activityName}" />
-                </p:column>
-                <p:column headerText="Activity Type">
-                    <h:outputText value="#{evaluation.activityType}" />
-                </p:column>
-                <p:column headerText="Grade">
-                    <h:outputText value="#{evaluation.grade}" />
-                </p:column>
-                <p:column headerText="Comment">
-                    <h:outputText value="#{evaluation.comment}" />
-                </p:column>
-                <p:column headerText="Timestamp">
-                    <h:outputText value="#{evaluation.timestamp}" />
-                </p:column>
-            </p:dataTable>
-        </h:form>
+        <h2>Statistics</h2>
+        <h:panelGrid columns="2">
+            <h:outputLabel value="Total Evaluations:" />
+            <h:outputText value="#{adminDashboardBean.totalEvaluations}" />
+
+            <h:outputLabel value="Evaluations by Teacher:" />
+            <h:dataTable value="#{adminDashboardBean.evaluationsByTeacher}" var="entry" border="1">
+                <h:column>
+                    <f:facet name="header">Teacher</f:facet>
+                    #{entry.key}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Number of Evaluations</f:facet>
+                    #{entry.value}
+                </h:column>
+            </h:dataTable>
+
+            <h:outputLabel value="Average Grade by Teacher:" />
+            <h:dataTable value="#{adminDashboardBean.averageGradeByTeacher}" var="entry" border="1">
+                <h:column>
+                    <f:facet name="header">Teacher</f:facet>
+                    #{entry.key}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Average Grade</f:facet>
+                    #{entry.value}
+                </h:column>
+            </h:dataTable>
+        </h:panelGrid>
+
+        <h2>All Evaluations</h2>
+        <h:dataTable value="#{adminDashboardBean.evaluations}" var="evaluation" border="1">
+            <h:column>
+                <f:facet name="header">Student</f:facet>
+                #{evaluation.student.name}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Teacher</f:facet>
+                #{evaluation.teacher.name}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Activity Name</f:facet>
+                #{evaluation.activityName}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Activity Type</f:facet>
+                #{evaluation.activityType}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Grade</f:facet>
+                #{evaluation.grade}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Comment</f:facet>
+                #{evaluation.comment}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Timestamp</f:facet>
+                #{evaluation.timestamp}
+            </h:column>
+        </h:dataTable>
     </h:body>
 </html>

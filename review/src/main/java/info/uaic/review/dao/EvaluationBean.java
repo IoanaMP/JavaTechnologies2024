@@ -9,15 +9,18 @@ import info.uaic.review.entities.EvaluationPeriod;
 import info.uaic.review.entities.UserEntity;
 import info.uaic.review.repositories.EvaluationRepository;
 import info.uaic.review.repositories.UserRepository;
+import info.uaic.review.utils.EvaluationEvent;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Event;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 
 /**
  *
@@ -35,54 +38,44 @@ public class EvaluationBean {
 
     @Inject
     private FacesContext facesContext;
+    
+    @Inject
+    private Event<EvaluationEvent> evaluationEvent;
 
-    private Integer teacherId;
-
-    private String activityName;
-
-    private String activityType;
-
-    private Integer grade;
-
-    private String comment;
+    @Valid
+    private EvaluationEntity evaluation = new EvaluationEntity();
 
     private List<UserEntity> teachers;
 
     @PostConstruct
     public void init() {
-        teachers = userRepository.findAllTeachers(); 
+        teachers = userRepository.findAllTeachers();
     }
 
     public void submitEvaluation() {
         try {
             if (!isWithinSubmissionPeriod()) {
                 facesContext.addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_WARN, 
-                        "Submission Closed", 
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "Submission Closed",
                         "Evaluations are not being accepted at this time."));
                 return;
             }
 
-            EvaluationEntity evaluation = new EvaluationEntity();
-            evaluation.setTeacher(userRepository.findTeacherById(teacherId));
-            evaluation.setActivityName(activityName);
-            evaluation.setActivityType(activityType);
-            evaluation.setGrade(grade);
-            evaluation.setComment(comment);
-
-            evaluationRepository.saveEvaluation(evaluation); 
-
+            evaluationRepository.saveEvaluation(evaluation);
+            evaluationEvent.fire(new EvaluationEvent(evaluation));
             facesContext.addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, 
-                    "Success", 
+                new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Success",
                     "Evaluation submitted successfully!"));
+
             resetForm();
         } catch (ConstraintViolationException e) {
             handleValidationErrors(e);
         } catch (Exception e) {
             facesContext.addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                    "Error", 
+                new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error",
                     "An error occurred while submitting the evaluation."));
             e.printStackTrace();
         }
@@ -90,66 +83,30 @@ public class EvaluationBean {
 
     private boolean isWithinSubmissionPeriod() {
         EvaluationPeriod period = evaluationRepository.getCurrentEvaluationPeriod();
-        return period != null && 
-               LocalDateTime.now().isAfter(period.getStartDate()) && 
+        return period != null &&
+               LocalDateTime.now().isAfter(period.getStartDate()) &&
                LocalDateTime.now().isBefore(period.getEndDate());
     }
 
     private void handleValidationErrors(ConstraintViolationException e) {
         e.getConstraintViolations().forEach(violation -> {
             facesContext.addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                    "Validation Error", 
+                new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Validation Error",
                     violation.getMessage()));
         });
     }
 
     private void resetForm() {
-        this.teacherId = null;
-        this.activityName = null;
-        this.activityType = null;
-        this.grade = null;
-        this.comment = null;
+        this.evaluation = new EvaluationEntity();
     }
 
-    public Integer getTeacherId() {
-        return teacherId;
+    public EvaluationEntity getEvaluation() {
+        return evaluation;
     }
 
-    public void setTeacherId(Integer teacherId) {
-        this.teacherId = teacherId;
-    }
-
-    public String getActivityName() {
-        return activityName;
-    }
-
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
-    }
-
-    public String getActivityType() {
-        return activityType;
-    }
-
-    public void setActivityType(String activityType) {
-        this.activityType = activityType;
-    }
-
-    public Integer getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Integer grade) {
-        this.grade = grade;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setEvaluation(EvaluationEntity evaluation) {
+        this.evaluation = evaluation;
     }
 
     public List<UserEntity> getTeachers() {
@@ -160,3 +117,4 @@ public class EvaluationBean {
         this.teachers = teachers;
     }
 }
+

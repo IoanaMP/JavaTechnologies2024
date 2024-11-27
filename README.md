@@ -48,3 +48,35 @@ Then I modified the Entities for Product, Client, Orders and OrderItems using JP
 I created the repositories for Product, Client and Orders with simple CRUD operations. 
 I made a complete test unit for the CRUD operations for Products in test/java/ProductTest.java
 
+
+Laboratory 6
+
+Rewrite the data access layer of the application created in the previous laboratories, implementing the repository classes as Enterprise Java Beans.
+Use the support offered by the EJB technology for implementing transactions.
+
+Extend the model of the application such that clients can order products from the warehouse. An order contains a set of products and their quantities. --> done this and also an [interface](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/vrp/src/main/webapp/view/orderTable.xhtml)
+The warehouse has a predefined quantity (initial stock) of each product. The stocks will be decreased accordingly after each order. -->
+The following enterprise beans must be implemented:
+A stateless session bean that offers methods for determining the current stock of a product. --> [StockManager](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/vrp/src/main/java/info/uaic/vrp/Bean/StockManager.java)
+A stateful session bean responsible with the creation of the order. --> [OrderManager](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/vrp/src/main/java/info/uaic/vrp/Bean/OrderManager.java)
+A singleton session bean that keeps an in-memory map of the client orders. --> [OrderRegistry](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/vrp/src/main/java/info/uaic/vrp/Bean/OrderRegistry.java)
+Log the invocations and compute the running times of at least one business method, using an EJB interceptor.
+
+
+Laboratory 7
+Create a JSF application where students evaluate teachers. A student submission will specify a teacher, an activity (the name of a course, for example), the type of activity (course or lab, for example), a grade (score) and a comment.
+The application will allow the following:
+An [authentication](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/java/info/uaic/review/entities/Login.java) mechanism based on username and password
+[Register](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/webapp/register.xhtml) new users and assign them a specific role, for example admin, student, teacher, etc.
+Specify a time range, in which students can submit evaluations.
+The students can [submit](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/webapp/evaluation.xhtml) evaluations, the [teachers](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/webapp/teacher-dashboard.xhtml) can see only their own evaluations, the [admin](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/webapp/admin-dashboard.xhtml) can see all evaluations and various statistics.
+Each submission will have a uniquely generated registration number.
+All evaluations will have a timestamp (when where they submitted).
+
+Use Contexts and Dependency Injection (CDI) for:
+- the management of application's beans [@Inject](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/java/info/uaic/review/repositories/UserRepository.java) and transactions [@Transactional](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/java/info/uaic/review/repositories/EvaluationRepository.java)
+- decoupling the components using dependency injection (for example, use a producer method to generate registration numbers) (@Produces) -> [generateRegistrationNumber](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/java/info/uaic/review/entities/EvaluationEntity.java)
+- decoupling orthogonal concerns, such as logging; [@Interceptor](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/java/info/uaic/review/logging/LoggingInterceptor.java)
+- decoupling bussines concerns, such as verifying the date for operations like registration and submission [@Decorator](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/java/info/uaic/review/repositories/SubmissionDecorator.java);
+- implementing at least one event-based comunication (for instance, whenever a new evaluation is submitted a message is produced and all observers of this type of event will be notified) ([@Observes](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/java/info/uaic/review/utils/EvaluationEventListener.java));
+- data validation, using Bean [Validation](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/java/info/uaic/review/entities/EvaluationEntity.java) annotations.

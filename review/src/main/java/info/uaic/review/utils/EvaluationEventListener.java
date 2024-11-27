@@ -4,6 +4,7 @@
  */
 package info.uaic.review.utils;
 
+import info.uaic.review.entities.EvaluationEntity;
 import javax.enterprise.event.Observes;
 
 /**
@@ -13,9 +14,17 @@ import javax.enterprise.event.Observes;
 public class EvaluationEventListener {
 
     public void onEvaluationSubmitted(@Observes EvaluationEvent event) {
+        EvaluationEntity evaluation = event.getEvaluation();
+
         System.out.println("New evaluation submitted for teacher: " 
-                           + event.getEvaluation().getTeacher().getName()
+                           + evaluation.getTeacher().getName()
                            + ", Registration Number: " 
-                           + event.getEvaluation().getRegistrationNumber());
+                           + evaluation.getRegistrationNumber());
+
+        sendNotificationToTeacher(evaluation);
+    }
+
+    private void sendNotificationToTeacher(EvaluationEntity evaluation) {
+        System.out.println("Notification sent to teacher: " + evaluation.getTeacher().getName());
     }
 }
