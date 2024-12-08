@@ -10,23 +10,32 @@
     <body>
         <h:form>
             <h:outputLabel value="Name"/>
-            <h:inputText id="name" value="#{userBean.name}"></h:inputText>
+            <h:inputText id="name" value="#{userBean.name}" required="true">
+                <f:validateLength minimum="3" maximum="50"/>
+            </h:inputText>
+            <h:message for="name" />
 
             <h:outputLabel value="Username"/>
-            <h:inputText id="username" value="#{userBean.username}"></h:inputText>
+            <h:inputText id="username" value="#{userBean.username}" required="true">
+                <f:validateLength minimum="5" maximum="20"/>
+            </h:inputText>
+            <h:message for="username" />
 
             <h:outputLabel value="Password"/>
-            <h:inputSecret id="password" value="#{userBean.password}"></h:inputSecret>
+            <h:inputSecret id="password" value="#{userBean.password}" required="true">
+                <f:validateLength minimum="8"/>
+            </h:inputSecret>
+            <h:message for="password" />
 
             <h:outputLabel value="Role"/>
             <h:selectOneMenu id="option" value="#{userBean.role}">
                 <f:selectItem itemLabel="Admin" itemValue="admin"/>
-                <f:selectItem itemLabel="User" itemValue="user"/>
+                <f:selectItem itemLabel="Student" itemValue="student"/>
                 <f:selectItem itemLabel="Teacher" itemValue="teacher"/>
             </h:selectOneMenu>
 
-<!--            <h:commandButton action="#{userRepository.checkSubmissionAvailability(userBean)}"
-                             value="Create"></h:commandButton>-->
+            <h:commandButton action="#{userBean.register}"
+                             value="Create"></h:commandButton>
         </h:form>
     </body>
 </html>

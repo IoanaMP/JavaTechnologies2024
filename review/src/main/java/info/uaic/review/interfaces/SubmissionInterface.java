@@ -5,6 +5,7 @@
 package info.uaic.review.interfaces;
 
 import info.uaic.review.entities.*;
+import javax.validation.Valid;
 /**
  *
  * @author ioana

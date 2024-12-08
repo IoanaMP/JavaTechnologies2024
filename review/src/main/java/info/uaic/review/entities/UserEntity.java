@@ -7,6 +7,7 @@ package info.uaic.review.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.persistence.Basic;
@@ -147,16 +148,16 @@ public class UserEntity implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserEntity)) return false;
+        UserEntity that = (UserEntity) o;
+        return Objects.equals(this.id, that.id);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        UserEntity that = (UserEntity) obj;
-        return id != null && id.equals(that.id);
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

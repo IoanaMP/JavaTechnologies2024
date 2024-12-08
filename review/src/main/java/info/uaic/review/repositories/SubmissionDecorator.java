@@ -6,15 +6,12 @@ package info.uaic.review.repositories;
 
 import info.uaic.review.entities.EvaluationEntity;
 import info.uaic.review.entities.EvaluationPeriod;
-import info.uaic.review.entities.UserEntity;
 import info.uaic.review.interfaces.SubmissionInterface;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
 import javax.decorator.Decorator;
 import javax.decorator.Delegate;
-import javax.enterprise.inject.Any;
 import javax.inject.Inject;
+import javax.validation.Valid;
 /**
  *
  * @author ioana
@@ -25,8 +22,7 @@ public abstract class SubmissionDecorator implements SubmissionInterface {
 
     @Inject
     @Delegate
-    @Any
-    SubmissionInterface submissionInterface;
+    private SubmissionInterface delegate;
 
     @Inject
     private EvaluationRepository evaluationRepository;
@@ -34,9 +30,9 @@ public abstract class SubmissionDecorator implements SubmissionInterface {
     @Override
     public void save(EvaluationEntity evaluation) {
         if (!isWithinSubmissionPeriod()) {
-            throw new IllegalStateException("Submission period is not active");
+            throw new IllegalStateException("Submissions are not allowed outside the active period.");
         }
-        submissionInterface.save(evaluation);
+        delegate.save(evaluation); 
     }
 
     private boolean isWithinSubmissionPeriod() {

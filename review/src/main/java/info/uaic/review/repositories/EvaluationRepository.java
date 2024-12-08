@@ -5,33 +5,48 @@
 package info.uaic.review.repositories;
 
 import info.uaic.review.entities.*;
+import info.uaic.review.interfaces.SubmissionInterface;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import jdk.nashorn.internal.runtime.logging.Logger;
 
 /**
  *
  * @author ioana
  */
-@Named
+
+@Transactional(rollbackOn = {SQLException.class})
 @ApplicationScoped
-public class EvaluationRepository {
+public class EvaluationRepository implements SubmissionInterface {
 
     @Inject
     private EntityManager em;
+    
+    @Override
+    public void save(EvaluationEntity evaluation) {
+        try {
+            System.out.print("save ev");
+            System.out.print(evaluation.getRegistrationNumber());
+            System.out.print(evaluation.getTeacher());
+            System.out.print(evaluation.getActivityName());
 
-    @Transactional
-    public void saveEvaluation(@Valid EvaluationEntity evaluation) {
-        em.persist(evaluation);
+            em.persist(evaluation);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
     
-    @Transactional
     public List<EvaluationEntity> findEvaluationsByTeacherUsername(String username) {
         return em.createQuery(
             "SELECT e FROM EvaluationEntity e WHERE e.teacher.username = :username",
@@ -40,12 +55,10 @@ public class EvaluationRepository {
             .getResultList();
     }
 
-    @Transactional
     public List<EvaluationEntity> findAllEvaluations() {
         return em.createQuery("SELECT e FROM EvaluationEntity e", EvaluationEntity.class).getResultList();
     }
 
-    @Transactional
     public List<EvaluationEntity> findEvaluationsByTeacher(String teacherUsername) {
         return em.createQuery(
             "SELECT e FROM EvaluationEntity e WHERE e.teacher.username = :username",
@@ -54,7 +67,6 @@ public class EvaluationRepository {
             .getResultList();
     }
 
-    @Transactional
     public List<EvaluationEntity> findEvaluationsByStudent(String studentUsername) {
         return em.createQuery(
             "SELECT e FROM EvaluationEntity e WHERE e.student.username = :username",
@@ -63,7 +75,6 @@ public class EvaluationRepository {
             .getResultList();
     }
 
-    @Transactional
     public EvaluationPeriod getCurrentEvaluationPeriod() {
         try {
             return em.createQuery(
@@ -76,7 +87,6 @@ public class EvaluationRepository {
         }
     }
     
-    @Transactional
     public void saveEvaluationPeriod(EvaluationPeriod period) {
         em.persist(period);
     }

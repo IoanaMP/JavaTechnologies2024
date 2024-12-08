@@ -59,8 +59,8 @@ public class EvaluationEntity implements Serializable {
     private String activityType;
 
     @NotNull(message = "Grade is required.")
-    @Min(value = 0, message = "Grade must be greater than or equal to 10")
-    @Max(value = 100, message = "Grade must be less than or equal to 100")
+    @Min(value = 1, message = "Grade must be greater than or equal to 10")
+    @Max(value = 10, message = "Grade must be less than or equal to 100")
     @Column(name = "grade")
     private Integer grade;
 
@@ -71,6 +71,10 @@ public class EvaluationEntity implements Serializable {
     @Basic(optional = false)
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
+    
+    public EvaluationEntity() {
+    this.grade = 1;
+    }
 
     @Produces
     public static String generateRegistrationNumber() {

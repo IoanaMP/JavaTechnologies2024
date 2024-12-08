@@ -6,11 +6,16 @@ package info.uaic.review.dao;
 
 import info.uaic.review.entities.RoleEntity;
 import info.uaic.review.entities.UserEntity;
+import info.uaic.review.repositories.RoleRepository;
 import info.uaic.review.repositories.UserRepository;
 import java.util.Collections;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 /**
  *
@@ -27,22 +32,50 @@ public class UserBean {
 
     @Inject
     private UserRepository userRepository;
+    
+    @Inject
+    private RoleRepository roleRepository;
+    
+    @Inject
+    private EntityManager em;
 
+    @Transactional
     public String register() {
         try {
+
+         RoleEntity roleEntity = roleRepository.findByName(role);
+
+        if (roleEntity == null) {
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error", "Role not found: " + role));
+            return "register.xhtml?faces-redirect=true";
+        }
+        
+        if (!em.contains(roleEntity)) {
+            roleEntity = em.merge(roleEntity);
+        }
             UserEntity newUser = new UserEntity();
             newUser.setName(name);
             newUser.setUsername(username);
             newUser.setPassword(password);
             
             // Assigning role to the user
-            RoleEntity roleEntity = new RoleEntity();
-            roleEntity.setName(role);
             newUser.setRoles(Collections.singletonList(roleEntity));
-
+            
             userRepository.save(newUser);
 
-            return "success.xhtml?faces-redirect=true";
+            switch (role.toLowerCase()) {
+            case "admin":
+                return "admin-dashboard.xhtml?faces-redirect=true";
+            case "teacher":
+                return "teacher-dashboard.xhtml?faces-redirect=true";
+            case "student":
+                return "evaluation.xhtml?faces-redirect=true";
+            default:
+                return "register.xhtml?faces-redirect=true";
+             }
         } catch (Exception e) {
             e.printStackTrace();
             return ""; //error page sth like error.xhtml?faces-redirect=true

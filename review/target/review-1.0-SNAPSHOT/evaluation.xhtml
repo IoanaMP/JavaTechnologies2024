@@ -2,40 +2,43 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Submit Evaluation</title>
     </h:head>
     <h:body>
         <h1>Submit Evaluation</h1>
-        <h:form>
-            <h:outputLabel value="Teacher:" />
-            <h:selectOneMenu value="#{evaluationBean.teacherId}">
-                <f:selectItems value="#{evaluationBean.teachers}" var="teacher"
-                               itemValue="#{teacher.id}" itemLabel="#{teacher.name}" />
-            </h:selectOneMenu>
+        <h:form id="form">
+            <p:outputLabel value="Teacher:" for="teacherSelect" />
+        <p:selectOneMenu id="teacherSelect" value="#{evaluationBean.evaluation.teacher}"
+                         converter="omnifaces.SelectItemsConverter">
+            <f:selectItems value="#{evaluationBean.teachers}" var="teacher"
+                           itemLabel="#{teacher.name}" itemValue="#{teacher}" />
+        </p:selectOneMenu>
             <br /><br />
 
-            <h:outputLabel value="Activity Name:" />
-            <h:inputText value="#{evaluationBean.activityName}" />
+            <p:outputLabel value="Activity Name:" for="activityName" />
+            <p:inputText id="activityName" value="#{evaluationBean.evaluation.activityName}" required="true" requiredMessage="Activity Name is required."/>
             <br /><br />
 
-            <h:outputLabel value="Activity Type:" />
-            <h:selectOneMenu value="#{evaluationBean.activityType}">
+            <p:outputLabel value="Activity Type:" for="activityType" />
+            <p:selectOneMenu id="activityType" value="#{evaluationBean.evaluation.activityType}">
                 <f:selectItem itemValue="course" itemLabel="Course" />
                 <f:selectItem itemValue="laboratory" itemLabel="Laboratory" />
-            </h:selectOneMenu>
+            </p:selectOneMenu>
             <br /><br />
 
-            <h:outputLabel value="Grade:" />
-            <h:inputText value="#{evaluationBean.grade}" />
+            <p:outputLabel value="Grade:" for="gradeInput" />
+            <p:slider for="gradeInput" minValue="1" maxValue="10" style="width:300px;" />
+            <p:inputText id="gradeInput" value="#{evaluationBean.evaluation.grade}" size="2" readonly="true" />
             <br /><br />
 
-            <h:outputLabel value="Comment:" />
-            <h:inputTextarea value="#{evaluationBean.comment}" />
+            <p:outputLabel value="Comment:" for="comment" />
+            <p:inputTextarea id="comment" value="#{evaluationBean.evaluation.comment}" autoResize="true" />
             <br /><br />
 
-            <h:commandButton action="#{evaluationBean.submitEvaluation}" value="Submit" />
+            <p:commandButton value="Submit" action="#{evaluationBean.submit}" process="@form" update="@form" />
         </h:form>
     </h:body>
 </html>

@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -54,9 +55,10 @@ public class Login implements Serializable {
                             "Please enter the correct credentials"));
                 return "login";
             }
-// de pus in session poate?
-//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("username", username);
-//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("role", role);
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        externalContext.getSession(true);
+        externalContext.getSessionMap().put("username", username);
+        System.out.println("Username in session: " + externalContext.getSessionMap().get("username"));
             return role.toLowerCase();
     }
 

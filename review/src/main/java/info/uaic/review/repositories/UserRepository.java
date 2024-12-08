@@ -25,28 +25,49 @@ public class UserRepository {
     private EntityManager em;
 
     @Interceptors(LoggingInterceptor.class)
+    @Transactional
     public void save(UserEntity user) {
         em.persist(user);
     }
     
-    @Transactional
     public UserEntity findTeacherById(Integer teacherId) {
         try {
             return em.createQuery(
-                    "SELECT u FROM UserEntity u WHERE u.id = :teacherId AND 'teacher' MEMBER OF u.roles",
+                    "SELECT u FROM UserEntity u JOIN u.roles r WHERE u.id = :teacherId AND r.name = :roleName",
                     UserEntity.class)
                     .setParameter("teacherId", teacherId)
+                    .setParameter("roleName", "teacher")
                     .getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
     }
-    
-    @Transactional
+
     public List<UserEntity> findAllTeachers() {
         return em.createQuery(
-                "SELECT u FROM UserEntity u WHERE 'teacher' MEMBER OF u.roles",
+                "SELECT u FROM UserEntity u JOIN u.roles r WHERE r.name = :roleName",
                 UserEntity.class)
+                .setParameter("roleName", "teacher")
                 .getResultList();
+    }
+    
+    public UserEntity findById(Integer id) {
+        try {
+            return em.createNamedQuery("UserEntity.findById", UserEntity.class)
+                     .setParameter("id", id)
+                     .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
+        public UserEntity findByUsername(String username) {
+        try {
+            return em.createNamedQuery("UserEntity.findByUsername", UserEntity.class)
+                     .setParameter("username", username)
+                     .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }
