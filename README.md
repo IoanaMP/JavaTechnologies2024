@@ -80,3 +80,12 @@ Use Contexts and Dependency Injection (CDI) for:
 - decoupling bussines concerns, such as verifying the date for operations like registration and submission [@Decorator](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/java/info/uaic/review/repositories/SubmissionDecorator.java);
 - implementing at least one event-based comunication (for instance, whenever a new evaluation is submitted a message is produced and all observers of this type of event will be notified) ([@Observes](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/java/info/uaic/review/utils/EvaluationEventListener.java));
 - data validation, using Bean [Validation](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/java/info/uaic/review/entities/EvaluationEntity.java) annotations.
+
+Laboratory 8
+[CRUD](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/java/info/uaic/review/Services/EvaluationService.java)
+- adding a new evaluation to the database
+- replacing an existing evaluation
+- deleting an existing evaluation
+- returning a "list" of the evaluations there were uploaded (by a user or for a teacher, etc.)
+
+ Create a [filter](https://github.com/IoanaMP/JavaTechnologies2024/blob/main/review/src/main/java/info/uaic/review/Filters/EvaluationCache.java) that will act as a cache for the service that returns the evaluations, storing the parameters of the incoming request and the returned responses. If the evaluations are modified by the application, reset the cache accordingly.
