@@ -84,4 +84,13 @@ public class EvaluationService {
         return Response.ok(evaluations).build();
     }
 
+    @GET
+    @Path("/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllEvaluations() {
+        TypedQuery<EvaluationEntity> query = entityManager.createQuery("SELECT e FROM EvaluationEntity e", EvaluationEntity.class);
+        List<EvaluationEntity> evaluations = query.getResultList();
+
+        return Response.ok(evaluations).build();
+    }
 }

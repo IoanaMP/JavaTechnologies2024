@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
  * @author ioana
  */
 public class ClientReview {
-    private static String URI_VIEW = "http://localhost:8080/review/resources/evaluations";
+    private static String URI_VIEW = "http://localhost:8080/review/resources/evaluations/all";
 
     public static void main(String[] args)
     {
