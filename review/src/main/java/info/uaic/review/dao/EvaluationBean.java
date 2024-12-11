@@ -8,6 +8,7 @@ import info.uaic.review.entities.EvaluationEntity;
 import info.uaic.review.entities.UserEntity;
 import info.uaic.review.interfaces.SubmissionInterface;
 import info.uaic.review.repositories.EvaluationRepository;
+import info.uaic.review.repositories.SubmissionPrimary;
 import info.uaic.review.repositories.UserRepository;
 import info.uaic.review.utils.EvaluationEvent;
 import java.util.List;
@@ -31,7 +32,8 @@ import javax.transaction.Transactional;
 public class EvaluationBean {
 
     @Inject
-    private EvaluationRepository evaluationRepository;
+    @SubmissionPrimary
+    private SubmissionInterface submissionService;
 
     @Inject
     private UserRepository userRepository;
@@ -57,7 +59,7 @@ public class EvaluationBean {
         System.out.print("submit");
         try {
             FacesContext facesContext = FacesContext.getCurrentInstance();
-            System.out.print(evaluation.getActivityName());
+            System.out.print(evaluation.getGrade());
             String username  = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("username");
             UserEntity loggedInUser = userRepository.findByUsername(username);
             evaluation.setStudent(loggedInUser);
@@ -67,7 +69,7 @@ public class EvaluationBean {
             System.out.print(managedTeacher);
             evaluation.setTeacher(managedTeacher);
             evaluation.setStudent(managedStudent);
-            evaluationRepository.save(evaluation);
+            submissionService.save(evaluation);
             evaluationEvent.fire(new EvaluationEvent(evaluation));
             facesContext.addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -99,7 +101,7 @@ public class EvaluationBean {
 
     private void resetForm() {
         this.evaluation = new EvaluationEntity();
-        this.evaluation.setGrade(1); 
+        //this.evaluation.setGrade(1); 
     }
 
     public EvaluationEntity getEvaluation() {

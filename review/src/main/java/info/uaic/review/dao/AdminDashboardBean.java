@@ -6,6 +6,7 @@ package info.uaic.review.dao;
 
 import info.uaic.review.entities.EvaluationEntity;
 import info.uaic.review.repositories.EvaluationRepository;
+import info.uaic.review.repositories.SubmissionPrimary;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ import javax.inject.Named;
 public class AdminDashboardBean {
 
     @Inject
+    @SubmissionPrimary
     private EvaluationRepository evaluationRepository;
 
     private List<EvaluationEntity> evaluations;

@@ -6,6 +6,7 @@ package info.uaic.review.dao;
 
 import info.uaic.review.entities.EvaluationEntity;
 import info.uaic.review.repositories.EvaluationRepository;
+import info.uaic.review.repositories.SubmissionPrimary;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -22,6 +23,7 @@ import javax.inject.Named;
 public class TeacherDashboardBean {
 
     @Inject
+    @SubmissionPrimary
     private EvaluationRepository evaluationRepository;
 
     private List<EvaluationEntity> evaluations;

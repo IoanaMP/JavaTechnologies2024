@@ -6,6 +6,7 @@ package info.uaic.review.repositories;
 
 import info.uaic.review.entities.*;
 import info.uaic.review.interfaces.SubmissionInterface;
+import info.uaic.review.logging.LoggingInterceptor;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.interceptor.Interceptors;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
@@ -27,19 +29,17 @@ import jdk.nashorn.internal.runtime.logging.Logger;
 
 @Transactional(rollbackOn = {SQLException.class})
 @ApplicationScoped
+@SubmissionPrimary
 public class EvaluationRepository implements SubmissionInterface {
 
     @Inject
     private EntityManager em;
     
+    @Interceptors(LoggingInterceptor.class)
     @Override
     public void save(EvaluationEntity evaluation) {
         try {
             System.out.print("save ev");
-            System.out.print(evaluation.getRegistrationNumber());
-            System.out.print(evaluation.getTeacher());
-            System.out.print(evaluation.getActivityName());
-
             em.persist(evaluation);
         } catch (Exception e) {
             e.printStackTrace();

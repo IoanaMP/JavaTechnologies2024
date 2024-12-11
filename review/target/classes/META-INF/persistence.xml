@@ -4,7 +4,7 @@
   <persistence-unit name="punit" transaction-type="JTA">
    
     <jta-data-source>jdbc/PostgresReview</jta-data-source>
-
+    <class>com.example.entities.EvaluationEntity</class>
     <properties>
      </properties>
   </persistence-unit>

@@ -22,9 +22,11 @@ public abstract class SubmissionDecorator implements SubmissionInterface {
 
     @Inject
     @Delegate
+    @SubmissionPrimary
     private SubmissionInterface delegate;
 
     @Inject
+    @SubmissionPrimary
     private EvaluationRepository evaluationRepository;
 
     @Override
