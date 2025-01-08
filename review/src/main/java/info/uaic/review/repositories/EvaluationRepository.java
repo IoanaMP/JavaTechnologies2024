@@ -7,6 +7,7 @@ package info.uaic.review.repositories;
 import info.uaic.review.entities.*;
 import info.uaic.review.interfaces.SubmissionInterface;
 import info.uaic.review.logging.LoggingInterceptor;
+import jakarta.annotation.security.RolesAllowed;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,6 +38,7 @@ public class EvaluationRepository implements SubmissionInterface {
     
     @Interceptors(LoggingInterceptor.class)
     @Override
+    @RolesAllowed("student")
     public void save(EvaluationEntity evaluation) {
         try {
             System.out.print("save ev");
@@ -47,6 +49,7 @@ public class EvaluationRepository implements SubmissionInterface {
         }
     }
     
+    @RolesAllowed({"admin","teacher"})
     public List<EvaluationEntity> findEvaluationsByTeacherUsername(String username) {
         return em.createQuery(
             "SELECT e FROM EvaluationEntity e WHERE e.teacher.username = :username",
@@ -55,10 +58,12 @@ public class EvaluationRepository implements SubmissionInterface {
             .getResultList();
     }
 
+    @RolesAllowed("admin")
     public List<EvaluationEntity> findAllEvaluations() {
         return em.createQuery("SELECT e FROM EvaluationEntity e", EvaluationEntity.class).getResultList();
     }
 
+    @RolesAllowed({"admin","teacher"})
     public List<EvaluationEntity> findEvaluationsByTeacher(String teacherUsername) {
         return em.createQuery(
             "SELECT e FROM EvaluationEntity e WHERE e.teacher.username = :username",
@@ -67,6 +72,7 @@ public class EvaluationRepository implements SubmissionInterface {
             .getResultList();
     }
 
+    @RolesAllowed("admin")
     public List<EvaluationEntity> findEvaluationsByStudent(String studentUsername) {
         return em.createQuery(
             "SELECT e FROM EvaluationEntity e WHERE e.student.username = :username",
@@ -87,6 +93,7 @@ public class EvaluationRepository implements SubmissionInterface {
         }
     }
     
+    @RolesAllowed("admin")
     public void saveEvaluationPeriod(EvaluationPeriod period) {
         em.persist(period);
     }

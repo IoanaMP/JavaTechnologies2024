@@ -26,7 +26,7 @@ public class RoleEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
     @Basic(optional = false)
     @NotNull
@@ -36,11 +36,11 @@ public class RoleEntity implements Serializable {
     @ManyToMany(mappedBy = "roles")
     private List<UserEntity> users;
 
-    public Integer getId() {
+    public String getId() {
     return id;
 }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

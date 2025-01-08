@@ -4,6 +4,7 @@
  */
 package info.uaic.review.Services;
 import info.uaic.review.entities.EvaluationEntity;
+import jakarta.annotation.security.RolesAllowed;
 import java.time.LocalDateTime;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -26,6 +27,7 @@ public class EvaluationService {
     @POST
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"admin","student"})
     public Response addEvaluation(EvaluationEntity evaluation) {
         if (evaluation == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Invalid evaluation data").build();
@@ -39,6 +41,7 @@ public class EvaluationService {
     @Path("/{id}")
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"admin","student"})
     public Response updateEvaluation(@PathParam("id") Integer id, EvaluationEntity updatedEvaluation) {
         EvaluationEntity existingEvaluation = entityManager.find(EvaluationEntity.class, id);
 
@@ -59,6 +62,7 @@ public class EvaluationService {
     @DELETE
     @Path("/{id}")
     @Transactional
+    @RolesAllowed("admin")
     public Response deleteEvaluation(@PathParam("id") Integer id) {
         EvaluationEntity evaluation = entityManager.find(EvaluationEntity.class, id);
         if (evaluation == null) {
@@ -70,6 +74,7 @@ public class EvaluationService {
     }
 
     @GET
+    @RolesAllowed({"admin","teacher"})
     public Response getEvaluations(@QueryParam("studentId") Integer student,
                                     @QueryParam("teacherId") Integer teacher) {
         StringBuilder queryBuilder = new StringBuilder("SELECT e FROM EvaluationEntity e WHERE 1=1");
@@ -87,6 +92,7 @@ public class EvaluationService {
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed("admin")
     public Response getAllEvaluations() {
         TypedQuery<EvaluationEntity> query = entityManager.createQuery("SELECT e FROM EvaluationEntity e", EvaluationEntity.class);
         List<EvaluationEntity> evaluations = query.getResultList();

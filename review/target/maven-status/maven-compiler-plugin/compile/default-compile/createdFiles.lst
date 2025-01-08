@@ -13,6 +13,7 @@ info\uaic\review\repositories\SubmissionPrimary.class
 info\uaic\review\logging\LoggingInterceptor.class
 info\uaic\review\Filters\EvaluationCache$1.class
 info\uaic\review\Services\EvaluationService.class
+info\uaic\review\dao\LoginBean.class
 info\uaic\review\JakartaRestConfiguration.class
 info\uaic\review\repositories\SubmissionDecorator.class
 info\uaic\review\Services\TestService.class

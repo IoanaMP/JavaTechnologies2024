@@ -53,13 +53,13 @@ public class Login implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
                             "Incorrect Username or Password",
                             "Please enter the correct credentials"));
-                return "login";
+                return "error";
             }
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         externalContext.getSession(true);
         externalContext.getSessionMap().put("username", username);
         System.out.println("Username in session: " + externalContext.getSessionMap().get("username"));
-            return role.toLowerCase();
+        return role.toLowerCase();
     }
 
 }

@@ -61,7 +61,6 @@ public class UserBean {
             newUser.setUsername(username);
             newUser.setPassword(password);
             
-            // Assigning role to the user
             newUser.setRoles(Collections.singletonList(roleEntity));
             
             userRepository.save(newUser);
