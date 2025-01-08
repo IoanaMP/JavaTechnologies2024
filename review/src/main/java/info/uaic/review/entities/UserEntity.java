@@ -38,7 +38,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "UserEntity.findAll", query = "SELECT u FROM UserEntity u"),
     @NamedQuery(name = "UserEntity.findById", query = "SELECT u FROM UserEntity u WHERE u.id = :id"),
     @NamedQuery(name = "UserEntity.findByName", query = "SELECT u FROM UserEntity u WHERE u.name = :name"),
-    @NamedQuery(name = "UserEntity.findByUsername", query = "SELECT u FROM UserEntity u WHERE u.username = :username"),
+    @NamedQuery(name = "UserEntity.findByEmail", query = "SELECT u FROM UserEntity u WHERE u.email = :email"),
     @NamedQuery(name = "UserEntity.findByPassword", query = "SELECT u FROM UserEntity u WHERE u.password = :password"),
     @NamedQuery(name = "UserEntity.countUsers", query = "SELECT COUNT(u) FROM UserEntity u")})
 public class UserEntity implements Serializable {
@@ -46,8 +46,7 @@ public class UserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
     @Basic(optional = false)
     @NotNull
@@ -58,8 +57,8 @@ public class UserEntity implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
-    @Column(name = "username", unique = true)
-    private String username;
+    @Column(name = "email", unique = true)
+    private String email;
 
     @Basic(optional = false)
     @NotNull
@@ -84,18 +83,18 @@ public class UserEntity implements Serializable {
     public UserEntity() {
     }
 
-    public UserEntity(Integer id, String name, String username, String password) {
+    public UserEntity(String id, String name, String email, String password) {
         this.id = id;
         this.name = name;
-        this.username = username;
+        this.email = email;
         this.password = password;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -108,11 +107,11 @@ public class UserEntity implements Serializable {
     }
 
     public String getUsername() {
-        return username;
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -162,6 +161,6 @@ public class UserEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UserEntity{id=" + id + ", username='" + username + "', name='" + name + "'}";
+        return "UserEntity{id=" + id + ", username='" + email + "', name='" + name + "'}";
     }
 }

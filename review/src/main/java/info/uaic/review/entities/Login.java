@@ -26,7 +26,7 @@ public class Login implements Serializable {
     private LoginDAO loginDAO;
     
     private String password;
-    private String username;
+    private String id;
 
     public String getPassword() {
         return password;
@@ -37,15 +37,15 @@ public class Login implements Serializable {
     }
 
     public String getUsername() {
-        return username;
+        return id;
     }
 
     public void setUsername(String user) {
-        this.username = user;
+        this.id = user;
     }
 
     public String validateUsernamePassword() {
-            String role = loginDAO.getUserRole(username, password);
+            String role = loginDAO.getUserRole(id, password);
 
             if (role == null) {
                 FacesContext.getCurrentInstance().addMessage(
@@ -57,7 +57,7 @@ public class Login implements Serializable {
             }
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         externalContext.getSession(true);
-        externalContext.getSessionMap().put("username", username);
+        externalContext.getSessionMap().put("username", id);
         System.out.println("Username in session: " + externalContext.getSessionMap().get("username"));
         return role.toLowerCase();
     }

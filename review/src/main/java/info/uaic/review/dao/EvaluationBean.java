@@ -61,7 +61,7 @@ public class EvaluationBean {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             System.out.print(evaluation.getGrade());
             String username  = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("username");
-            UserEntity loggedInUser = userRepository.findByUsername(username);
+            UserEntity loggedInUser = userRepository.findById(username);
             evaluation.setStudent(loggedInUser);
             UserEntity managedTeacher = em.merge(evaluation.getTeacher());
             UserEntity managedStudent = em.merge(evaluation.getStudent());

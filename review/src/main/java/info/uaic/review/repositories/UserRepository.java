@@ -62,7 +62,7 @@ public class UserRepository {
                 .getResultList();
     }
     
-    public UserEntity findById(Integer id) {
+    public UserEntity findById(String id) {
         try {
             return em.createNamedQuery("UserEntity.findById", UserEntity.class)
                      .setParameter("id", id)
@@ -72,10 +72,10 @@ public class UserRepository {
         }
     }
     
-    public UserEntity findByUsername(String username) {
+    public UserEntity findByEmail(String username) {
         try {
-            return em.createNamedQuery("UserEntity.findByUsername", UserEntity.class)
-                     .setParameter("username", username)
+            return em.createNamedQuery("UserEntity.findByEmail", UserEntity.class)
+                     .setParameter("email", username)
                      .getSingleResult();
         } catch (NoResultException e) {
             return null;
@@ -85,11 +85,11 @@ public class UserRepository {
     public String findUserRole(String username, String password) {
         try {
             return (String) em.createNativeQuery(
-                    "SELECT r.name " +
+                    "SELECT r.id " +
                     "FROM users u " +
                     "JOIN user_roles ur ON ur.user_id = u.id " +
                     "JOIN roles r ON ur.role_id = r.id " +
-                    "WHERE u.username = ? AND u.password = ?")
+                    "WHERE u.id = ? AND u.password = ?")
                     .setParameter(1, username)
                     .setParameter(2, password)
                     .getSingleResult();
